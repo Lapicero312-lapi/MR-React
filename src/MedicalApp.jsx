@@ -52,75 +52,91 @@ const Icon = ({ name, size = 18 }) => {
     trash:        (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M10,11v6"/><path d="M14,11v6"/><path d="M9,6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1V6"/></svg>),
     stethoscope:  (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6h0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>),
     warning:      (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>),
+    id:           (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>),
+    phone:        (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.63a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>),
+    mail:         (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>),
+    calendar:     (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>),
+    info:         (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>),
+    hash:         (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>),
+    location:     (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>),
+    user:         (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>),
+    note:         (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>),
+    tag:          (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>),
+    license:      (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><path d="M9 15l2 2 4-4"/></svg>),
+    birth:        (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><path d="M12 7V3"/><path d="M9 3h6"/></svg>),
+    monitor:      (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>),
   };
   return icons[name] || null;
 };
 
-// ─── DESIGN SYSTEM v2 ─────────────────────────────────────────────────────────
+// ─── DESIGN SYSTEM ────────────────────────────────────────────────────────────
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    /* Brand palette — white clinical + dark pastel burgundy */
-    --wine:       #8B2635;
-    --wine-deep:  #6B1D28;
-    --wine-light: #A83347;
-    --wine-pale:  #F5E8EA;
-    --wine-soft:  #EDD5D8;
-    --wine-mid:   #C4707D;
+    --teal:        #0F766E;
+    --teal-deep:   #0C5F58;
+    --teal-light:  #14877E;
+    --teal-pale:   #E6F4F3;
+    --teal-soft:   #C8E9E6;
+    --teal-mid:    #5FB3AD;
 
-    --cream:      #FDFAF8;
-    --white:      #FFFFFF;
-    --off:        #F7F3F1;
-    --stone:      #EDE8E5;
-    --stone-dark: #D4CCC8;
-    
-    --ink:        #1C1410;
-    --ink-med:    #4A3F3A;
-    --ink-light:  #7A6E6A;
-    --ink-ghost:  #A89E9B;
-    --ink-whisper:#C8C0BC;
+    --navy:        #0F2942;
+    --navy-med:    #1A3A55;
+    --navy-light:  #254D6E;
 
-    --success:    #2D7A4F;
-    --success-bg: #EAF4EE;
-    --warn:       #8B6914;
-    --warn-bg:    #FDF5E0;
-    --info:       #1E5FA0;
-    --info-bg:    #E8F0FA;
-    --danger:     var(--wine);
-    --danger-bg:  var(--wine-pale);
+    --cream:       #FAFCFC;
+    --white:       #FFFFFF;
+    --off:         #F3F7F7;
+    --stone:       #E2ECEC;
+    --stone-dark:  #C5D8D8;
 
-    --sidebar-w:  260px;
-    --topbar-h:   64px;
-    --radius:     10px;
-    --radius-sm:  7px;
-    --radius-lg:  14px;
-    --shadow-sm:  0 1px 3px rgba(28,20,16,0.07), 0 1px 2px rgba(28,20,16,0.05);
-    --shadow-md:  0 4px 12px rgba(28,20,16,0.08), 0 2px 4px rgba(28,20,16,0.05);
-    --shadow-lg:  0 12px 32px rgba(28,20,16,0.12), 0 4px 8px rgba(28,20,16,0.06);
-    --transition: 0.16s ease;
-    --font-head:  'Libre Baskerville', Georgia, serif;
-    --font-body:  'Plus Jakarta Sans', system-ui, sans-serif;
+    --ink:         #111E2A;
+    --ink-med:     #2D4052;
+    --ink-light:   #5A7080;
+    --ink-ghost:   #8BA4B0;
+    --ink-whisper: #B8CCCC;
+
+    --success:     #0F766E;
+    --success-bg:  #E6F4F3;
+    --warn:        #92600A;
+    --warn-bg:     #FEF3E2;
+    --info:        #1D5FA6;
+    --info-bg:     #EBF3FC;
+    --danger:      #B91C1C;
+    --danger-bg:   #FEF2F2;
+    --danger-soft: #FECACA;
+
+    --sidebar-w:   252px;
+    --topbar-h:    60px;
+    --radius:      10px;
+    --radius-sm:   7px;
+    --radius-lg:   14px;
+    --shadow-sm:   0 1px 3px rgba(15,40,60,0.07), 0 1px 2px rgba(15,40,60,0.04);
+    --shadow-md:   0 4px 12px rgba(15,40,60,0.09), 0 2px 4px rgba(15,40,60,0.05);
+    --shadow-lg:   0 12px 32px rgba(15,40,60,0.13), 0 4px 8px rgba(15,40,60,0.06);
+    --transition:  0.15s ease;
+    --font-head:   'DM Serif Display', Georgia, serif;
+    --font-body:   'DM Sans', system-ui, sans-serif;
   }
 
   html { font-size: 15px; }
-  body { 
-    font-family: var(--font-body); 
-    background: var(--off); 
-    color: var(--ink); 
+  body {
+    font-family: var(--font-body);
+    background: var(--off);
+    color: var(--ink);
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ── APP SHELL ── */
   .app-shell { display: flex; min-height: 100vh; }
 
   /* ── SIDEBAR ── */
   .sidebar {
     width: var(--sidebar-w);
-    background: var(--wine-deep);
+    background: var(--navy);
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -133,189 +149,176 @@ const styles = `
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 280px;
-    background: linear-gradient(160deg, rgba(255,255,255,0.04) 0%, transparent 100%);
+    height: 200px;
+    background: linear-gradient(160deg, rgba(15,118,110,0.18) 0%, transparent 100%);
     pointer-events: none;
   }
   .sidebar.hidden { transform: translateX(-100%); }
 
   .sidebar-logo {
-    padding: 28px 22px 24px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 22px 18px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
     position: relative;
-  }
-  .logo-mark {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
   }
+  .logo-mark { display: flex; align-items: center; gap: 11px; }
   .logo-icon {
-    width: 40px; height: 40px;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.18);
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(15,118,110,0.4);
   }
   .logo-name {
     font-family: var(--font-head);
-    font-size: 17px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 400;
     color: #fff;
-    letter-spacing: -0.3px;
+    letter-spacing: 0.2px;
     line-height: 1.1;
   }
+  .logo-name span { color: var(--teal-mid); }
   .logo-sub {
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 400;
-    color: rgba(255,255,255,0.45);
-    letter-spacing: 1.8px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 2px;
     text-transform: uppercase;
     margin-top: 3px;
   }
   .logo-badge {
-    position: absolute;
-    top: 28px; right: 22px;
-    font-size: 9px;
-    font-weight: 600;
-    background: rgba(255,255,255,0.15);
-    color: rgba(255,255,255,0.7);
+    font-size: 9px; font-weight: 600;
+    background: rgba(15,118,110,0.3);
+    color: var(--teal-mid);
     padding: 3px 8px;
     border-radius: 20px;
     letter-spacing: 0.5px;
+    border: 1px solid rgba(15,118,110,0.4);
+    flex-shrink: 0;
   }
 
-  .sidebar-nav { flex: 1; padding: 18px 12px; overflow-y: auto; }
+  .sidebar-nav { flex: 1; padding: 14px 10px; overflow-y: auto; }
   .sidebar-nav::-webkit-scrollbar { width: 0; }
 
-  .nav-section { margin-bottom: 4px; }
+  .nav-section { margin-bottom: 2px; }
   .nav-section-label {
-    font-size: 9.5px;
-    font-weight: 600;
-    letter-spacing: 2px;
+    font-size: 9px; font-weight: 600; letter-spacing: 2.2px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.28);
-    padding: 14px 10px 6px;
+    color: rgba(255,255,255,0.22);
+    padding: 12px 10px 5px;
   }
 
   .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 12px;
+    display: flex; align-items: center; gap: 9px;
+    padding: 8px 11px;
     border-radius: var(--radius-sm);
     cursor: pointer;
-    color: rgba(255,255,255,0.55);
-    font-size: 13px;
-    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    font-size: 13px; font-weight: 400;
     transition: all var(--transition);
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
+    border: none; background: none; width: 100%; text-align: left;
     position: relative;
   }
-  .nav-item svg { opacity: 0.7; flex-shrink: 0; transition: opacity var(--transition); }
-  .nav-item:hover { 
-    background: rgba(255,255,255,0.07); 
-    color: rgba(255,255,255,0.85);
-  }
-  .nav-item:hover svg { opacity: 0.9; }
-  .nav-item.active { 
-    background: rgba(255,255,255,0.13); 
+  .nav-item svg { opacity: 0.65; flex-shrink: 0; transition: opacity var(--transition); }
+  .nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.82); }
+  .nav-item:hover svg { opacity: 0.85; }
+  .nav-item.active {
+    background: rgba(15,118,110,0.25);
     color: #fff;
     font-weight: 500;
+    border: 1px solid rgba(15,118,110,0.35);
   }
-  .nav-item.active svg { opacity: 1; }
+  .nav-item.active svg { opacity: 1; color: var(--teal-mid); }
   .nav-item.active::before {
     content: '';
     position: absolute;
-    left: 0; top: 50%;
-    transform: translateY(-50%);
-    width: 3px; height: 18px;
-    background: rgba(255,255,255,0.7);
+    left: 0; top: 50%; transform: translateY(-50%);
+    width: 3px; height: 16px;
+    background: var(--teal-mid);
     border-radius: 0 2px 2px 0;
   }
 
   .sidebar-footer {
-    padding: 16px 22px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    padding: 14px 16px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0;
   }
   .sidebar-footer-avatar {
     width: 30px; height: 30px;
-    background: rgba(255,255,255,0.15);
+    background: rgba(15,118,110,0.35);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 12px; color: rgba(255,255,255,0.8); font-weight: 600;
+    font-size: 11px; color: var(--teal-mid); font-weight: 700;
+    border: 1px solid rgba(15,118,110,0.5);
+    flex-shrink: 0;
   }
   .sidebar-footer-info { flex: 1; min-width: 0; }
-  .sidebar-footer-name { font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .sidebar-footer-role { font-size: 10px; color: rgba(255,255,255,0.35); }
+  .sidebar-footer-name {
+    font-size: 12px; color: rgba(255,255,255,0.65);
+    font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .sidebar-footer-role { font-size: 10px; color: rgba(255,255,255,0.28); }
 
   /* ── MAIN ── */
   .main { flex: 1; margin-left: var(--sidebar-w); display: flex; flex-direction: column; min-height: 100vh; }
 
-  /* ── TOPBAR ── */
   .topbar {
     height: var(--topbar-h);
     background: var(--white);
     border-bottom: 1px solid var(--stone);
-    display: flex;
-    align-items: center;
-    padding: 0 28px;
-    gap: 16px;
-    position: sticky;
-    top: 0;
-    z-index: 50;
+    display: flex; align-items: center;
+    padding: 0 24px; gap: 14px;
+    position: sticky; top: 0; z-index: 50;
     box-shadow: var(--shadow-sm);
   }
-  .topbar-breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-  }
-  .topbar-section {
-    font-size: 12px;
-    color: var(--ink-ghost);
-    font-weight: 400;
-  }
+  .topbar-breadcrumb { display: flex; align-items: center; gap: 7px; flex: 1; }
+  .topbar-section { font-size: 12px; color: var(--ink-ghost); font-weight: 400; }
   .topbar-sep { color: var(--ink-whisper); font-size: 12px; }
   .topbar-title {
     font-family: var(--font-head);
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--ink);
-    letter-spacing: -0.2px;
+    font-size: 15px; color: var(--ink);
+    letter-spacing: -0.1px;
   }
   .topbar-right { display: flex; align-items: center; gap: 10px; }
-  .topbar-pulse {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 11px; color: var(--success); font-weight: 500;
-  }
+  .topbar-pulse { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--teal); font-weight: 500; }
   .topbar-pulse-dot {
     width: 7px; height: 7px;
-    background: var(--success);
+    background: var(--teal);
     border-radius: 50%;
     animation: blink 2s ease infinite;
   }
   @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
   .topbar-date { font-size: 12px; color: var(--ink-ghost); }
-  .btn-menu { display: none; background: none; border: none; color: var(--ink-light); cursor: pointer; padding: 6px; border-radius: var(--radius-sm); }
+  .btn-menu {
+    display: none; background: none; border: none;
+    color: var(--ink-light); cursor: pointer;
+    padding: 6px; border-radius: var(--radius-sm);
+  }
 
-  /* ── CONTENT ── */
-  .content { padding: 28px; flex: 1; }
+  .content { padding: 26px; flex: 1; }
 
   /* ── PAGE HEADER ── */
-  .page-header { margin-bottom: 24px; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
-  .page-header-left {}
-  .page-eyebrow { font-size: 10.5px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--wine); margin-bottom: 4px; }
-  .page-title { font-family: var(--font-head); font-size: 22px; color: var(--ink); letter-spacing: -0.5px; line-height: 1.2; }
-  .page-subtitle { font-size: 13px; color: var(--ink-light); margin-top: 4px; font-weight: 400; }
+  .page-header {
+    margin-bottom: 22px;
+    display: flex; align-items: flex-end;
+    justify-content: space-between; gap: 16px;
+  }
+  .page-eyebrow {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 2.2px; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 4px;
+  }
+  .page-title {
+    font-family: var(--font-head);
+    font-size: 22px; color: var(--ink);
+    letter-spacing: -0.3px; line-height: 1.2;
+  }
+  .page-subtitle { font-size: 12.5px; color: var(--ink-ghost); margin-top: 3px; font-weight: 400; }
 
   /* ── CARDS ── */
   .card {
@@ -326,96 +329,75 @@ const styles = `
     box-shadow: var(--shadow-sm);
   }
   .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 22px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px;
     border-bottom: 1px solid var(--stone);
     background: var(--white);
   }
-  .card-title {
-    font-family: var(--font-head);
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--ink);
-    letter-spacing: -0.2px;
-  }
+  .card-title { font-family: var(--font-head); font-size: 14px; color: var(--ink); letter-spacing: -0.1px; }
   .card-subtitle { font-size: 12px; color: var(--ink-ghost); margin-top: 2px; }
-  .card-body { padding: 22px; }
+  .card-body { padding: 20px; }
 
   /* ── BUTTONS ── */
   .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 18px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 17px;
     border-radius: var(--radius-sm);
     font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; border: none;
     transition: all var(--transition);
-    letter-spacing: 0.1px;
-    line-height: 1;
+    letter-spacing: 0.1px; line-height: 1;
   }
-  .btn-primary { 
-    background: var(--wine); 
-    color: #fff; 
-    box-shadow: 0 2px 6px rgba(139,38,53,0.25);
+  .btn-primary {
+    background: var(--teal); color: #fff;
+    box-shadow: 0 2px 6px rgba(15,118,110,0.3);
   }
-  .btn-primary:hover { 
-    background: var(--wine-light); 
-    box-shadow: 0 4px 12px rgba(139,38,53,0.35);
+  .btn-primary:hover {
+    background: var(--teal-light);
+    box-shadow: 0 4px 14px rgba(15,118,110,0.4);
     transform: translateY(-1px);
   }
-  .btn-ghost { 
-    background: transparent; 
-    color: var(--ink-med); 
-    border: 1px solid var(--stone-dark); 
+  .btn-ghost {
+    background: transparent; color: var(--ink-med);
+    border: 1px solid var(--stone-dark);
   }
   .btn-ghost:hover { background: var(--off); color: var(--ink); }
-  .btn-danger { 
-    background: var(--wine-pale); 
-    color: var(--wine); 
-    border: 1px solid var(--wine-soft); 
+  .btn-danger {
+    background: var(--danger-bg); color: var(--danger);
+    border: 1px solid var(--danger-soft);
   }
-  .btn-danger:hover { background: var(--wine-soft); }
-  .btn-success { 
-    background: var(--success-bg); 
-    color: var(--success); 
-    border: 1px solid #C0DFD0; 
+  .btn-danger:hover { background: #fee2e2; }
+  .btn-success {
+    background: var(--success-bg); color: var(--success);
+    border: 1px solid var(--teal-soft);
   }
-  .btn-success:hover { background: #D6EEE3; }
-  .btn-warn { 
-    background: var(--warn-bg); 
-    color: var(--warn); 
-    border: 1px solid #F0D990; 
+  .btn-success:hover { background: var(--teal-soft); }
+  .btn-warn {
+    background: var(--warn-bg); color: var(--warn);
+    border: 1px solid #F6D88A;
   }
-  .btn-warn:hover { background: #FAF0C0; }
+  .btn-warn:hover { background: #fde9b0; }
   .btn-outline {
-    background: transparent;
-    color: var(--wine);
-    border: 1px solid var(--wine-mid);
+    background: transparent; color: var(--teal);
+    border: 1px solid var(--teal-mid);
   }
-  .btn-outline:hover { background: var(--wine-pale); }
+  .btn-outline:hover { background: var(--teal-pale); }
   .btn-sm { padding: 6px 12px; font-size: 12px; }
   .btn-xs { padding: 4px 9px; font-size: 11px; border-radius: 5px; }
   .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
-  /* ── FORM ELEMENTS ── */
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  /* ── FORM ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
   .form-grid.cols-1 { grid-template-columns: 1fr; }
   .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
   .form-group.full { grid-column: 1 / -1; }
 
-  label { 
-    font-size: 11px; 
-    font-weight: 600; 
-    color: var(--ink-light); 
-    letter-spacing: 0.8px; 
-    text-transform: uppercase; 
+  label {
+    font-size: 11px; font-weight: 600;
+    color: var(--ink-light);
+    letter-spacing: 0.8px; text-transform: uppercase;
   }
   input, select, textarea {
     background: var(--cream);
@@ -426,148 +408,268 @@ const styles = `
     font-family: var(--font-body);
     font-size: 14px;
     transition: all var(--transition);
-    width: 100%;
-    outline: none;
+    width: 100%; outline: none;
   }
-  input:hover, select:hover { border-color: var(--wine-mid); }
-  input:focus, select:focus, textarea:focus { 
-    border-color: var(--wine); 
+  input:hover, select:hover { border-color: var(--teal-mid); }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--teal);
     background: var(--white);
-    box-shadow: 0 0 0 3px rgba(139,38,53,0.09); 
+    box-shadow: 0 0 0 3px rgba(15,118,110,0.1);
   }
   input::placeholder, textarea::placeholder { color: var(--ink-whisper); }
   select option { background: var(--white); }
   textarea { resize: vertical; min-height: 80px; }
+  input:disabled, select:disabled { opacity: 0.55; cursor: not-allowed; background: var(--stone); }
 
   /* ── TABLES ── */
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
   thead { background: var(--cream); }
-  th { 
-    text-align: left; 
-    padding: 10px 16px; 
-    color: var(--ink-light); 
-    font-size: 10.5px; 
-    font-weight: 600; 
-    letter-spacing: 1px; 
-    text-transform: uppercase; 
+  th {
+    text-align: left; padding: 10px 16px;
+    color: var(--ink-light);
+    font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+    text-transform: uppercase;
     border-bottom: 1px solid var(--stone);
     white-space: nowrap;
   }
-  td { 
-    padding: 13px 16px; 
-    border-bottom: 1px solid var(--stone); 
-    color: var(--ink-med); 
+  td {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--stone);
+    color: var(--ink-med);
     vertical-align: middle;
   }
   tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--cream); }
   .td-primary { color: var(--ink); font-weight: 500; }
   .td-mono { font-family: 'SF Mono', 'Consolas', monospace; font-size: 12.5px; }
 
+  /* ── CLICKABLE ROWS — FIXED ── */
+  tr.clickable-row { cursor: pointer; transition: background var(--transition); }
+  tr.clickable-row:hover td { background: var(--teal-pale); }
+  /* FIX: ensure text inside hovered rows stays readable */
+  tr.clickable-row:hover .cell-avatar-primary { color: var(--teal-deep); }
+  tr.clickable-row:hover .cell-avatar-secondary { color: var(--ink-light); }
+
   /* ── BADGES ── */
-  .badge { 
-    display: inline-flex; 
-    align-items: center; 
-    gap: 4px;
-    padding: 3px 10px; 
-    border-radius: 20px; 
-    font-size: 11px; 
-    font-weight: 600; 
-    letter-spacing: 0.2px; 
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2px;
     white-space: nowrap;
   }
-  .badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
-  .badge-green   { background: var(--success-bg); color: var(--success); }
-  .badge-red     { background: var(--danger-bg);  color: var(--wine); }
+  .badge::before {
+    content: ''; width: 5px; height: 5px;
+    border-radius: 50%; background: currentColor; flex-shrink: 0;
+  }
+  .badge-green   { background: var(--success-bg); color: var(--teal-deep); }
+  .badge-red     { background: var(--danger-bg);  color: var(--danger); }
   .badge-blue    { background: var(--info-bg);    color: var(--info); }
   .badge-warn    { background: var(--warn-bg);    color: var(--warn); }
   .badge-gray    { background: var(--stone);      color: var(--ink-light); }
-  .badge-purple  { background: #F0EAF9;           color: #6B35A8; }
-  .badge-wine    { background: var(--wine-pale);  color: var(--wine-deep); }
+  .badge-purple  { background: #F2EBF9;           color: #6B35A8; }
+  .badge-teal    { background: var(--teal-pale);  color: var(--teal-deep); }
   .badge-no-dot::before { display: none; }
 
   /* ── MODAL ── */
   .modal-overlay {
     position: fixed; inset: 0;
-    background: rgba(28,20,16,0.45);
+    background: rgba(15,41,66,0.5);
     backdrop-filter: blur(3px);
     z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     padding: 20px;
   }
   .modal {
     background: var(--white);
     border: 1px solid var(--stone);
     border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 560px;
-    max-height: 90vh;
-    overflow-y: auto;
+    width: 100%; max-width: 560px;
+    max-height: 90vh; overflow-y: auto;
     box-shadow: var(--shadow-lg);
     animation: modalIn 0.18s ease;
   }
   .modal-lg { max-width: 720px; }
-  @keyframes modalIn { 
-    from { opacity: 0; transform: translateY(10px) scale(0.98); } 
-    to   { opacity: 1; transform: none; } 
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to { opacity: 1; transform: none; }
   }
   .modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 24px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px 16px;
     border-bottom: 1px solid var(--stone);
     background: var(--cream);
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
-  .modal-header-left { display: flex; align-items: center; gap: 12px; }
+  .modal-header-left { display: flex; align-items: center; gap: 11px; }
   .modal-icon {
     width: 34px; height: 34px;
-    background: var(--wine-pale);
+    background: var(--teal-pale);
     border-radius: var(--radius-sm);
     display: flex; align-items: center; justify-content: center;
-    color: var(--wine);
-    flex-shrink: 0;
+    color: var(--teal); flex-shrink: 0;
   }
-  .modal-title { 
-    font-family: var(--font-head);
-    font-size: 15px; 
-    font-weight: 700; 
-    color: var(--ink); 
-    letter-spacing: -0.2px;
-  }
+  .modal-title { font-family: var(--font-head); font-size: 15px; color: var(--ink); letter-spacing: -0.1px; }
   .modal-desc { font-size: 12px; color: var(--ink-ghost); margin-top: 2px; }
-  .modal-body { padding: 24px; }
-  .modal-footer { 
-    display: flex; 
-    justify-content: flex-end; 
-    gap: 10px; 
-    padding: 16px 24px; 
-    border-top: 1px solid var(--stone); 
+  .modal-body { padding: 22px; }
+  .modal-footer {
+    display: flex; justify-content: flex-end; gap: 10px;
+    padding: 14px 22px;
+    border-top: 1px solid var(--stone);
     background: var(--cream);
     border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   }
-  .btn-icon { 
-    background: none; border: none; cursor: pointer; 
-    color: var(--ink-ghost); padding: 6px; border-radius: 6px; 
+  .btn-icon {
+    background: none; border: none; cursor: pointer;
+    color: var(--ink-ghost);
+    padding: 6px; border-radius: 6px;
     display: flex; align-items: center; justify-content: center;
-    transition: all var(--transition); 
+    transition: all var(--transition);
   }
   .btn-icon:hover { background: var(--stone); color: var(--ink-med); }
 
-  /* ── STATS GRID ── */
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-  .stat-card { 
-    background: var(--white); 
-    border: 1px solid var(--stone); 
-    border-radius: var(--radius-lg); 
-    padding: 20px 22px;
-    box-shadow: var(--shadow-sm);
+  /* ── DETAIL DRAWER ── */
+  .drawer-overlay {
+    position: fixed; inset: 0;
+    background: rgba(15,41,66,0.4);
+    backdrop-filter: blur(2px);
+    z-index: 300;
+    display: flex; align-items: stretch; justify-content: flex-end;
+  }
+  .drawer {
+    background: var(--white);
+    width: 420px; max-width: 100vw;
+    height: 100vh; overflow-y: auto;
+    box-shadow: -8px 0 40px rgba(15,41,66,0.15);
+    animation: drawerIn 0.22s ease;
+    display: flex; flex-direction: column;
+  }
+  @keyframes drawerIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .drawer-hero {
+    padding: 26px 22px 22px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-med) 100%);
+    color: white;
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
+  }
+  .drawer-hero::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    background: rgba(15,118,110,0.12);
+    border-radius: 50%;
+  }
+  .drawer-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: 40px;
+    width: 80px; height: 80px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 50%;
+  }
+  .drawer-close {
+    position: absolute; top: 14px; right: 14px;
+    background: rgba(255,255,255,0.1);
+    border: none; cursor: pointer;
+    color: rgba(255,255,255,0.75);
+    padding: 6px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all var(--transition); z-index: 2;
+  }
+  .drawer-close:hover { background: rgba(255,255,255,0.2); color: white; }
+  .drawer-avatar-lg {
+    width: 60px; height: 60px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-head); font-size: 20px;
+    margin-bottom: 12px; position: relative; z-index: 2;
+  }
+  .drawer-avatar-teal  { background: rgba(15,118,110,0.3); color: var(--teal-mid); border: 2px solid rgba(15,118,110,0.5); }
+  .drawer-avatar-blue  { background: rgba(29,95,166,0.3);  color: #90C0F0;         border: 2px solid rgba(29,95,166,0.5); }
+  .drawer-name { font-family: var(--font-head); font-size: 17px; color: white; position: relative; z-index: 2; margin-bottom: 3px; }
+  .drawer-sub  { font-size: 12px; color: rgba(255,255,255,0.5); position: relative; z-index: 2; }
+  .drawer-hero-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 10px; padding: 4px 11px;
+    border-radius: 20px; font-size: 11px; font-weight: 600;
+    position: relative; z-index: 2;
+  }
+  .drawer-hero-badge.active    { background: rgba(15,118,110,0.28); color: #6FD9CF; border: 1px solid rgba(15,118,110,0.45); }
+  .drawer-hero-badge.inactive  { background: rgba(185,28,28,0.25);  color: #FCA5A5; border: 1px solid rgba(185,28,28,0.4); }
+  .drawer-hero-badge.scheduled { background: rgba(29,95,166,0.28);  color: #93C5FD; border: 1px solid rgba(29,95,166,0.45); }
+  .drawer-hero-badge.confirmed { background: rgba(15,118,110,0.28); color: #6FD9CF; border: 1px solid rgba(15,118,110,0.45); }
+  .drawer-hero-badge.cancelled { background: rgba(185,28,28,0.3);   color: #FCA5A5; border: 1px solid rgba(185,28,28,0.5); }
+  .drawer-hero-badge.completed { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.2); }
+  .drawer-hero-badge.noshow    { background: rgba(146,96,10,0.28);  color: #FCD34D; border: 1px solid rgba(146,96,10,0.45); }
+
+  .drawer-body { padding: 22px; flex: 1; }
+
+  .detail-section { margin-bottom: 22px; }
+  .detail-section-title {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--ink-ghost);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .detail-section-title::after { content: ''; flex: 1; height: 1px; background: var(--stone); }
+
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .detail-grid.cols-1 { grid-template-columns: 1fr; }
+  .detail-item {
+    background: var(--cream);
+    border: 1px solid var(--stone);
+    border-radius: var(--radius-sm);
+    padding: 11px 13px;
+    transition: box-shadow var(--transition);
+  }
+  .detail-item:hover { box-shadow: var(--shadow-sm); }
+  .detail-item.full { grid-column: 1 / -1; }
+  .detail-item-label {
+    font-size: 9.5px; font-weight: 600; letter-spacing: 0.8px;
+    text-transform: uppercase; color: var(--ink-ghost);
+    margin-bottom: 5px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .detail-item-label svg { opacity: 0.6; }
+  .detail-item-value { font-size: 13px; color: var(--ink); font-weight: 500; word-break: break-all; }
+  .detail-item-value.mono { font-family: 'SF Mono', 'Consolas', monospace; font-size: 11.5px; }
+  .detail-item-value.muted { color: var(--ink-ghost); font-weight: 400; font-style: italic; }
+
+  .drawer-related {
+    background: var(--off); border: 1px solid var(--stone);
+    border-radius: var(--radius); padding: 14px;
+    margin-bottom: 12px;
+  }
+  .drawer-related-title { font-size: 11px; font-weight: 600; color: var(--ink-light); margin-bottom: 9px; display: flex; align-items: center; gap: 6px; }
+  .drawer-related-row { display: flex; align-items: center; gap: 10px; }
+  .drawer-related-info { flex: 1; }
+  .drawer-related-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .drawer-related-detail { font-size: 11px; color: var(--ink-ghost); margin-top: 2px; }
+  .drawer-id-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--stone); border-radius: 20px;
+    padding: 2px 9px;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 10px; color: var(--ink-light);
+  }
+
+  /* ── STATS GRID ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px; margin-bottom: 22px;
+  }
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--stone);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+    position: relative; overflow: hidden;
   }
   .stat-card::after {
     content: '';
@@ -575,235 +677,200 @@ const styles = `
     top: 0; left: 0;
     width: 4px; height: 100%;
   }
-  .stat-card.wine::after  { background: var(--wine); }
+  .stat-card.teal::after  { background: var(--teal); }
   .stat-card.green::after { background: var(--success); }
   .stat-card.blue::after  { background: var(--info); }
   .stat-card.amber::after { background: var(--warn); }
   .stat-icon-wrap {
-    width: 38px; height: 38px;
+    width: 36px; height: 36px;
     border-radius: var(--radius-sm);
     display: flex; align-items: center; justify-content: center;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
-  .stat-icon-wrap.wine  { background: var(--wine-pale);  color: var(--wine); }
-  .stat-icon-wrap.green { background: var(--success-bg); color: var(--success); }
+  .stat-icon-wrap.teal  { background: var(--teal-pale);  color: var(--teal); }
+  .stat-icon-wrap.green { background: var(--success-bg); color: var(--teal); }
   .stat-icon-wrap.blue  { background: var(--info-bg);    color: var(--info); }
   .stat-icon-wrap.amber { background: var(--warn-bg);    color: var(--warn); }
-  .stat-value { 
+  .stat-value {
     font-family: var(--font-head);
-    font-size: 28px; 
-    font-weight: 700; 
-    color: var(--ink); 
-    line-height: 1;
-    letter-spacing: -1px;
-    margin-bottom: 6px;
+    font-size: 26px; color: var(--ink);
+    line-height: 1; letter-spacing: -0.5px;
+    margin-bottom: 5px;
   }
   .stat-label { font-size: 12px; font-weight: 500; color: var(--ink-light); }
-  .stat-delta { font-size: 11px; color: var(--ink-ghost); margin-top: 4px; }
+  .stat-delta { font-size: 11px; color: var(--ink-ghost); margin-top: 3px; }
 
   /* ── ALERTS ── */
-  .alert { 
-    padding: 11px 14px; 
-    border-radius: var(--radius-sm); 
-    font-size: 13px; 
-    margin-bottom: 16px; 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
+  .alert {
+    padding: 11px 14px; border-radius: var(--radius-sm);
+    font-size: 13px; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
     border-left: 3px solid transparent;
   }
-  .alert-success { background: var(--success-bg); border-left-color: var(--success); color: var(--success); }
-  .alert-error   { background: var(--danger-bg);  border-left-color: var(--wine);    color: var(--wine); }
+  .alert-success { background: var(--success-bg); border-left-color: var(--teal);   color: var(--teal-deep); }
+  .alert-error   { background: var(--danger-bg);  border-left-color: var(--danger);  color: var(--danger); }
   .alert-info    { background: var(--info-bg);    border-left-color: var(--info);    color: var(--info); }
 
   /* ── AVAILABILITY SLOTS ── */
-  .avail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: 12px; }
-  .avail-slot { 
-    background: var(--success-bg); 
-    border: 1px solid #C0DFD0; 
-    border-radius: var(--radius-sm); 
-    padding: 10px; 
-    font-size: 12px; 
-    color: var(--success); 
-    text-align: center; 
-    cursor: pointer; 
-    transition: all var(--transition); 
+  .avail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px; margin-top: 12px;
   }
-  .avail-slot:hover { background: #D6EEE3; transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-  .avail-slot.selected { 
-    background: var(--success); 
-    border-color: var(--success);
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(45,122,79,0.3);
+  .avail-slot {
+    background: var(--success-bg);
+    border: 1px solid var(--teal-soft);
+    border-radius: var(--radius-sm);
+    padding: 10px; font-size: 12px;
+    color: var(--teal-deep); text-align: center;
+    cursor: pointer; transition: all var(--transition);
+  }
+  .avail-slot:hover { background: var(--teal-soft); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+  .avail-slot.selected {
+    background: var(--teal); border-color: var(--teal);
+    color: #fff; box-shadow: 0 4px 10px rgba(15,118,110,0.35);
   }
   .avail-slot-time { font-weight: 700; font-size: 14px; }
-  .avail-slot-label { opacity: 0.75; font-size: 10.5px; margin-top: 2px; }
+  .avail-slot-label { opacity: 0.7; font-size: 10.5px; margin-top: 2px; }
 
   /* ── TABS ── */
-  .tab-list { display: flex; gap: 2px; border-bottom: 1px solid var(--stone); margin-bottom: 24px; }
-  .tab { 
-    padding: 10px 18px; 
-    font-size: 13px; 
-    font-weight: 500; 
-    cursor: pointer; 
-    border: none; 
-    background: none; 
-    color: var(--ink-ghost); 
-    border-bottom: 2px solid transparent; 
-    margin-bottom: -1px; 
-    transition: all var(--transition); 
-    font-family: var(--font-body);
+  .tab-list {
+    display: flex; gap: 2px;
+    border-bottom: 1px solid var(--stone);
+    margin-bottom: 22px;
   }
-  .tab.active { color: var(--wine); border-bottom-color: var(--wine); font-weight: 600; }
+  .tab {
+    padding: 9px 16px; font-size: 13px; font-weight: 500;
+    cursor: pointer; border: none; background: none;
+    color: var(--ink-ghost);
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: all var(--transition); font-family: var(--font-body);
+  }
+  .tab.active { color: var(--teal); border-bottom-color: var(--teal); font-weight: 600; }
   .tab:hover:not(.active) { color: var(--ink-med); }
 
   /* ── STEP INDICATOR ── */
-  .step-indicator { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+  .step-indicator {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 22px;
+  }
   .step { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--ink-ghost); }
-  .step.active { color: var(--wine); }
-  .step.done   { color: var(--success); }
-  .step-num { 
-    width: 24px; height: 24px; border-radius: 50%; 
-    background: var(--stone); 
-    border: 1px solid var(--stone-dark);
-    display: flex; align-items: center; justify-content: center; 
+  .step.active { color: var(--teal); }
+  .step.done   { color: var(--teal-deep); }
+  .step-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--stone); border: 1px solid var(--stone-dark);
+    display: flex; align-items: center; justify-content: center;
     font-size: 11px; font-weight: 700;
   }
-  .step.active .step-num { background: var(--wine-pale); border-color: var(--wine-mid); color: var(--wine); }
-  .step.done   .step-num { background: var(--success-bg); border-color: #C0DFD0; color: var(--success); }
+  .step.active .step-num { background: var(--teal-pale); border-color: var(--teal-mid); color: var(--teal); }
+  .step.done   .step-num { background: var(--success-bg); border-color: var(--teal-soft); color: var(--teal-deep); }
   .step-divider { flex: 1; height: 1px; background: var(--stone); max-width: 40px; }
 
-  /* ── INFO BOX ── */
-  .info-box { 
-    background: var(--info-bg); 
-    border: 1px solid #B8D0EE; 
-    border-left: 3px solid var(--info);
-    border-radius: var(--radius-sm); 
-    padding: 12px 14px; 
-    font-size: 13px; 
-    color: var(--info); 
-    margin-bottom: 16px; 
-    display: flex; 
-    align-items: flex-start; 
-    gap: 8px; 
+  .info-box {
+    background: var(--info-bg);
+    border: 1px solid #BFDBFE; border-left: 3px solid var(--info);
+    border-radius: var(--radius-sm);
+    padding: 11px 13px; font-size: 13px; color: var(--info);
+    margin-bottom: 16px;
+    display: flex; align-items: flex-start; gap: 8px;
   }
 
   /* ── SCHEDULE CARDS ── */
-  .schedule-day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-top: 4px; }
-  .schedule-day-card { 
-    background: var(--cream); 
-    border: 1px solid var(--stone); 
-    border-radius: var(--radius); 
-    padding: 14px 16px;
+  .schedule-day-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 11px; margin-top: 4px;
+  }
+  .schedule-day-card {
+    background: var(--cream); border: 1px solid var(--stone);
+    border-radius: var(--radius);
+    padding: 13px 15px;
     transition: box-shadow var(--transition);
   }
   .schedule-day-card:hover { box-shadow: var(--shadow-sm); }
-  .schedule-day-name { 
+  .schedule-day-name {
     font-family: var(--font-head);
-    font-size: 12px; 
-    font-weight: 700; 
-    color: var(--wine); 
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px; 
+    font-size: 12px; color: var(--teal);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 8px;
   }
   .schedule-day-time { font-size: 13px; color: var(--ink-med); display: flex; align-items: center; gap: 6px; }
 
-  /* ── ACTIONS ── */
   .actions-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 
-  /* ── EMPTY STATE ── */
-  .empty-state { 
-    text-align: center; 
-    padding: 52px 20px; 
-    color: var(--ink-ghost);
-  }
-  .empty-state-icon { 
-    width: 52px; height: 52px;
-    background: var(--stone);
-    border-radius: 50%;
+  .empty-state { text-align: center; padding: 50px 20px; color: var(--ink-ghost); }
+  .empty-state-icon {
+    width: 50px; height: 50px; background: var(--stone); border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 14px;
-    color: var(--ink-whisper);
+    margin: 0 auto 12px; color: var(--ink-whisper);
   }
   .empty-state-title { font-size: 14px; font-weight: 500; color: var(--ink-light); margin-bottom: 6px; }
   .empty-state p { font-size: 13px; }
 
-  /* ── SPINNER ── */
-  .spinner { width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid var(--stone); border-top-color: var(--wine); animation: spin 0.75s linear infinite; margin: 44px auto; }
+  .spinner {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 2.5px solid var(--stone); border-top-color: var(--teal);
+    animation: spin 0.75s linear infinite;
+    margin: 44px auto;
+  }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── REPORT CARDS ── */
-  .report-card { background: var(--white); border: 1px solid var(--stone); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
-  .report-header { 
-    padding: 16px 22px; 
-    background: var(--cream);
-    border-bottom: 1px solid var(--stone); 
+  .report-card {
+    background: var(--white); border: 1px solid var(--stone);
+    border-radius: var(--radius-lg); overflow: hidden;
+    margin-bottom: 18px; box-shadow: var(--shadow-sm);
+  }
+  .report-header {
+    padding: 14px 20px; background: var(--cream);
+    border-bottom: 1px solid var(--stone);
     display: flex; align-items: center; gap: 10px;
   }
-  .report-icon { color: var(--wine); }
-  .report-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--ink); }
-  .report-body { padding: 20px 22px; }
+  .report-icon { color: var(--teal); }
+  .report-title { font-family: var(--font-head); font-size: 14px; color: var(--ink); }
+  .report-body { padding: 18px 20px; }
 
-  /* ── TOGGLE BADGE BUTTON ── */
   button.badge { cursor: pointer; border: none; transition: all var(--transition); }
-  button.badge:hover { filter: brightness(0.95); }
+  button.badge:hover { filter: brightness(0.94); }
 
-  /* ── DIVIDER ── */
-  .divider { height: 1px; background: var(--stone); margin: 20px 0; }
+  .divider { height: 1px; background: var(--stone); margin: 18px 0; }
 
-  /* ── PATIENT / DOCTOR AVATAR ── */
+  /* ── AVATARS — FIXED ── */
   .avatar {
-    width: 32px; height: 32px;
-    border-radius: 50%;
+    width: 32px; height: 32px; border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700;
-    flex-shrink: 0;
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+    font-family: var(--font-head);
   }
-  .avatar-wine  { background: var(--wine-pale); color: var(--wine-deep); }
+  .avatar-teal  { background: var(--teal-pale); color: var(--teal-deep); }
   .avatar-blue  { background: var(--info-bg);   color: var(--info); }
-  .avatar-green { background: var(--success-bg); color: var(--success); }
+  .avatar-green { background: var(--success-bg); color: var(--teal-deep); }
 
-  /* ── CELL WITH AVATAR ── */
+  /* ── TABLE CELL WITH AVATAR — FIXED ── */
   .cell-with-avatar { display: flex; align-items: center; gap: 10px; }
-  .cell-avatar-info {}
-  .cell-avatar-primary { font-size: 13.5px; font-weight: 500; color: var(--ink); line-height: 1.2; }
-  .cell-avatar-secondary { font-size: 11px; color: var(--ink-ghost); }
+  .cell-avatar-stack { display: flex; flex-direction: column; gap: 1px; line-height: 1; }
+  .cell-avatar-primary  { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+  .cell-avatar-secondary { font-size: 11px; color: var(--ink-ghost); margin-top: 2px; }
 
-  /* ── TOAST ── */
   .toast {
-    position: fixed;
-    bottom: 24px; right: 24px;
-    z-index: 999;
-    min-width: 280px;
-    max-width: 380px;
-    padding: 14px 18px;
-    border-radius: var(--radius);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    font-weight: 500;
+    position: fixed; bottom: 22px; right: 22px; z-index: 999;
+    min-width: 280px; max-width: 380px;
+    padding: 13px 17px; border-radius: var(--radius);
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 500;
     box-shadow: var(--shadow-lg);
     animation: toastIn 0.2s ease;
     border: 1px solid transparent;
   }
   @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-  .toast-success { background: #fff; border-color: #C0DFD0; color: var(--success); }
-  .toast-error   { background: #fff; border-color: var(--wine-soft); color: var(--wine); }
+  .toast-success { background: #fff; border-color: var(--teal-soft); color: var(--teal-deep); }
+  .toast-error   { background: #fff; border-color: var(--danger-soft); color: var(--danger); }
   .toast-icon { flex-shrink: 0; }
 
-  /* ── SECTION HEADER WITH RULE ── */
-  .section-divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 24px 0 16px;
-  }
-  .section-divider-label { font-size: 11px; font-weight: 600; color: var(--ink-ghost); text-transform: uppercase; letter-spacing: 1.5px; white-space: nowrap; }
+  .section-divider { display: flex; align-items: center; gap: 12px; margin: 22px 0 14px; }
+  .section-divider-label { font-size: 10.5px; font-weight: 600; color: var(--ink-ghost); text-transform: uppercase; letter-spacing: 1.5px; white-space: nowrap; }
   .section-divider-line { flex: 1; height: 1px; background: var(--stone); }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 900px) {
     .main { margin-left: 0; }
@@ -813,10 +880,12 @@ const styles = `
     .form-grid { grid-template-columns: 1fr; }
     .form-grid.cols-3 { grid-template-columns: 1fr 1fr; }
     .stats-grid { grid-template-columns: 1fr 1fr; }
+    .drawer { width: 100vw; }
+    .detail-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 580px) {
     .stats-grid { grid-template-columns: 1fr; }
-    .content { padding: 16px; }
+    .content { padding: 14px; }
   }
 `;
 
@@ -869,7 +938,7 @@ function Modal({ title, desc, icon = "plus", onClose, onSave, saving, children, 
   );
 }
 
-function DataTable({ columns, rows, loading, emptyMsg = "Sin registros", emptyIcon = "search" }) {
+function DataTable({ columns, rows, loading, emptyMsg = "Sin registros", emptyIcon = "search", onRowClick }) {
   if (loading) return <div className="spinner" />;
   if (!rows || !Array.isArray(rows) || rows.length === 0)
     return (
@@ -885,7 +954,14 @@ function DataTable({ columns, rows, loading, emptyMsg = "Sin registros", emptyIc
         <thead><tr>{columns.map((c) => <th key={c.key}>{c.label}</th>)}</tr></thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={row.id ?? i}>
+            <tr
+              key={row.id ?? i}
+              className={onRowClick ? "clickable-row" : ""}
+              onClick={onRowClick ? (e) => {
+                if (e.target.closest("button")) return;
+                onRowClick(row);
+              } : undefined}
+            >
               {columns.map((c) => (
                 <td key={c.key} className={c.primary ? "td-primary" : ""}>
                   {c.render ? c.render(row) : row[c.key] ?? "—"}
@@ -903,18 +979,259 @@ function Toast({ msg, type, onClose }) {
   useEffect(() => { const t = setTimeout(onClose, 3800); return () => clearTimeout(t); }, [onClose]);
   return (
     <div className={`toast toast-${type}`}>
-      <span className="toast-icon">
-        <Icon name={type === "success" ? "check" : "warning"} size={16} />
-      </span>
+      <span className="toast-icon"><Icon name={type === "success" ? "check" : "warning"} size={16} /></span>
       {msg}
     </div>
   );
 }
 
-function Initials({ name, variant = "wine" }) {
+// FIX: Unified Initials component — variant names now match CSS classes (teal/blue instead of wine/blue)
+function Initials({ name, variant = "teal", size = "sm" }) {
   const parts = (name || "?").trim().split(" ");
   const init = parts.length >= 2 ? parts[0][0] + parts[parts.length - 1][0] : parts[0]?.slice(0, 2) ?? "?";
+  if (size === "lg") {
+    return <div className={`drawer-avatar-lg drawer-avatar-${variant}`}>{init.toUpperCase()}</div>;
+  }
   return <div className={`avatar avatar-${variant}`}>{init.toUpperCase()}</div>;
+}
+
+// ─── DETAIL ITEM ──────────────────────────────────────────────────────────────
+function DetailItem({ label, value, icon, mono, full, muted }) {
+  return (
+    <div className={`detail-item ${full ? "full" : ""}`}>
+      <div className="detail-item-label">
+        {icon && <Icon name={icon} size={11} />}
+        {label}
+      </div>
+      <div className={`detail-item-value ${mono ? "mono" : ""} ${muted && !value ? "muted" : ""}`}>
+        {value || (muted ? "Sin información" : "—")}
+      </div>
+    </div>
+  );
+}
+
+// ─── PATIENT DETAIL DRAWER ────────────────────────────────────────────────────
+function PatientDrawer({ patient, onClose }) {
+  if (!patient) return null;
+  return (
+    <div className="drawer-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="drawer">
+        <div className="drawer-hero">
+          <button className="drawer-close" onClick={onClose}><Icon name="close" size={15} /></button>
+          <Initials name={patient.fullName} variant="teal" size="lg" />
+          <div className="drawer-name">{patient.fullName}</div>
+          <div className="drawer-sub">{patient.email}</div>
+          <div className={`drawer-hero-badge ${patient.active ? "active" : "inactive"}`}>
+            {patient.active ? "Paciente activo" : "Paciente inactivo"}
+          </div>
+        </div>
+        <div className="drawer-body">
+          <div className="detail-section">
+            <div className="detail-section-title">Información personal</div>
+            <div className="detail-grid">
+              <DetailItem label="Nombre completo" value={patient.fullName} icon="user" full />
+              <DetailItem label="Tipo de documento" value={patient.documentType} icon="id" />
+              <DetailItem label="Número de documento" value={patient.documentNumber} icon="hash" mono />
+              <DetailItem label="Fecha de nacimiento" value={patient.birthDay || patient.birthDate} icon="birth" muted />
+            </div>
+          </div>
+          <div className="detail-section">
+            <div className="detail-section-title">Contacto</div>
+            <div className="detail-grid">
+              <DetailItem label="Correo electrónico" value={patient.email} icon="mail" full />
+              <DetailItem label="Teléfono" value={patient.phoneNumber} icon="phone" />
+            </div>
+          </div>
+          <div className="detail-section">
+            <div className="detail-section-title">Sistema</div>
+            <div className="detail-grid">
+              <DetailItem label="ID del paciente" value={patient.id} icon="hash" mono full />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── DOCTOR DETAIL DRAWER ─────────────────────────────────────────────────────
+function DoctorDrawer({ doctor, specialties, onClose }) {
+  if (!doctor) return null;
+  const specName = (specialties || []).find((s) => s.id === doctor.specialtyId)?.name ?? "—";
+  const specDesc = (specialties || []).find((s) => s.id === doctor.specialtyId)?.description;
+  return (
+    <div className="drawer-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="drawer">
+        <div className="drawer-hero">
+          <button className="drawer-close" onClick={onClose}><Icon name="close" size={15} /></button>
+          <Initials name={doctor.fullName} variant="blue" size="lg" />
+          <div className="drawer-name">{doctor.fullName}</div>
+          <div className="drawer-sub">{doctor.email}</div>
+          <div className={`drawer-hero-badge ${doctor.active ? "active" : "inactive"}`}>
+            {doctor.active ? "Médico activo" : "Médico inactivo"}
+          </div>
+        </div>
+        <div className="drawer-body">
+          <div className="detail-section">
+            <div className="detail-section-title">Especialidad</div>
+            <div className="drawer-related">
+              <div className="drawer-related-row">
+                <div style={{ width: 36, height: 36, borderRadius: 9, background: "#F2EBF9", display: "flex", alignItems: "center", justifyContent: "center", color: "#6B35A8", flexShrink: 0 }}>
+                  <Icon name="specialties" size={17} />
+                </div>
+                <div className="drawer-related-info">
+                  <div className="drawer-related-name">{specName}</div>
+                  {specDesc && <div className="drawer-related-detail">{specDesc}</div>}
+                  <div style={{ marginTop: 4 }}><span className="drawer-id-pill"><Icon name="hash" size={9} /> {doctor.specialtyId}</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="detail-section">
+            <div className="detail-section-title">Información profesional</div>
+            <div className="detail-grid">
+              <DetailItem label="Nombre completo" value={doctor.fullName} icon="user" full />
+              <DetailItem label="Número de licencia" value={doctor.numberLicense ?? doctor.licenseNumber} icon="license" mono />
+              <DetailItem label="Tipo de documento" value={doctor.documentType} icon="id" />
+              <DetailItem label="Número de documento" value={doctor.documentNumber} icon="hash" mono />
+            </div>
+          </div>
+          <div className="detail-section">
+            <div className="detail-section-title">Contacto</div>
+            <div className="detail-grid">
+              <DetailItem label="Correo electrónico" value={doctor.email} icon="mail" full />
+              <DetailItem label="Teléfono" value={doctor.phoneNumber} icon="phone" />
+            </div>
+          </div>
+          <div className="detail-section">
+            <div className="detail-section-title">Sistema</div>
+            <div className="detail-grid">
+              <DetailItem label="ID del médico" value={doctor.id} icon="hash" mono full />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── APPOINTMENT DETAIL DRAWER ────────────────────────────────────────────────
+function AppointmentDrawer({ appointment, patients, doctors, offices, apptypes, onClose }) {
+  if (!appointment) return null;
+  const patient = (patients || []).find((p) => p.id === appointment.patientId);
+  const doctor  = (doctors  || []).find((d) => d.id === appointment.doctorId);
+  const office  = (offices  || []).find((o) => o.id === appointment.officeId);
+  const apptype = (apptypes || []).find((t) => t.id === appointment.appointmentTypeId);
+  const statusConfig = {
+    SCHEDULED: { label: "Programada",  cls: "scheduled" },
+    CONFIRMED: { label: "Confirmada",  cls: "confirmed" },
+    CANCELLED: { label: "Cancelada",   cls: "cancelled" },
+    COMPLETED: { label: "Completada",  cls: "completed" },
+    NO_SHOW:   { label: "No asistió",  cls: "noshow" },
+  };
+  const sc = statusConfig[appointment.status] ?? { label: appointment.status, cls: "scheduled" };
+  return (
+    <div className="drawer-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="drawer">
+        <div className="drawer-hero">
+          <button className="drawer-close" onClick={onClose}><Icon name="close" size={15} /></button>
+          <div style={{ width: 52, height: 52, borderRadius: 13, background: "rgba(15,118,110,0.2)", border: "2px solid rgba(15,118,110,0.4)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 12, position: "relative", zIndex: 2, color: "var(--teal-mid)" }}>
+            <Icon name="appointments" size={24} />
+          </div>
+          <div className="drawer-name">Cita médica</div>
+          <div className="drawer-sub">{appointment.date} · {appointment.startAt ?? appointment.startsAt ?? "—"}</div>
+          <div className={`drawer-hero-badge ${sc.cls}`}>{sc.label}</div>
+        </div>
+        <div className="drawer-body">
+          <div className="detail-section">
+            <div className="detail-section-title">Paciente</div>
+            {patient ? (
+              <div className="drawer-related">
+                <div className="drawer-related-row">
+                  <Initials name={patient.fullName} variant="teal" />
+                  <div className="drawer-related-info">
+                    <div className="drawer-related-name">{patient.fullName}</div>
+                    <div className="drawer-related-detail">{patient.email} · {patient.phoneNumber ?? "—"}</div>
+                    <div style={{ marginTop: 4, display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      <span className="drawer-id-pill"><Icon name="id" size={9} /> {patient.documentType} {patient.documentNumber}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <DetailItem label="ID del paciente" value={appointment.patientId} icon="hash" mono full />
+            )}
+          </div>
+          <div className="detail-section">
+            <div className="detail-section-title">Médico tratante</div>
+            {doctor ? (
+              <div className="drawer-related">
+                <div className="drawer-related-row">
+                  <Initials name={doctor.fullName} variant="blue" />
+                  <div className="drawer-related-info">
+                    <div className="drawer-related-name">{doctor.fullName}</div>
+                    <div className="drawer-related-detail">{doctor.email} · Lic. {doctor.numberLicense ?? doctor.licenseNumber ?? "—"}</div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <DetailItem label="ID del médico" value={appointment.doctorId} icon="hash" mono full />
+            )}
+          </div>
+          {office && (
+            <div className="detail-section">
+              <div className="detail-section-title">Consultorio</div>
+              <div className="drawer-related">
+                <div className="drawer-related-row">
+                  <div style={{ width: 36, height: 36, borderRadius: 9, background: "var(--info-bg)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--info)", flexShrink: 0 }}>
+                    <Icon name="offices" size={17} />
+                  </div>
+                  <div className="drawer-related-info">
+                    <div className="drawer-related-name">{office.name}</div>
+                    <div className="drawer-related-detail">{office.location ?? "—"}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="detail-section">
+            <div className="detail-section-title">Fecha y hora</div>
+            <div className="detail-grid">
+              <DetailItem label="Fecha" value={appointment.date} icon="calendar" />
+              <DetailItem label="Hora inicio" value={appointment.startAt ?? appointment.startsAt} icon="clock" mono />
+              <DetailItem label="Hora fin" value={appointment.endAt ?? appointment.endsAt} icon="clock" mono muted />
+              {apptype && <DetailItem label="Tipo de cita" value={`${apptype.name} (${apptype.durationMinutes} min)`} icon="apptypes" />}
+            </div>
+          </div>
+          {appointment.observations && (
+            <div className="detail-section">
+              <div className="detail-section-title">Observaciones</div>
+              <div className="detail-grid cols-1">
+                <DetailItem label="Notas" value={appointment.observations} icon="note" full muted />
+              </div>
+            </div>
+          )}
+          {appointment.status === "CANCELLED" && appointment.cancelReason && (
+            <div className="detail-section">
+              <div className="detail-section-title">Motivo de cancelación</div>
+              <div className="detail-grid cols-1">
+                <div className="detail-item full" style={{ borderColor: "#FCA5A5", background: "var(--danger-bg)" }}>
+                  <div className="detail-item-label" style={{ color: "var(--danger)" }}><Icon name="warning" size={11} /> Razón</div>
+                  <div className="detail-item-value">{appointment.cancelReason}</div>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="detail-section">
+            <div className="detail-section-title">Sistema</div>
+            <div className="detail-grid cols-1">
+              <DetailItem label="ID de la cita" value={appointment.id} icon="hash" mono full />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // ─── PATIENTS ─────────────────────────────────────────────────────────────────
@@ -922,6 +1239,7 @@ function PatientsView({ toast }) {
   const { data, loading, reload } = useData(() => api.get("/patients"));
   const [modal, setModal] = useState(null);
   const [selected, setSelected] = useState(null);
+  const [drawerPatient, setDrawerPatient] = useState(null);
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
   const [togglingId, setTogglingId] = useState(null);
@@ -951,8 +1269,9 @@ function PatientsView({ toast }) {
   const cols = [
     { key: "fullName", label: "Paciente", primary: true, render: (r) => (
       <div className="cell-with-avatar">
-        <Initials name={r.fullName} variant="wine" />
-        <div className="cell-avatar-info">
+        <Initials name={r.fullName} variant="teal" />
+        {/* FIX: use .cell-avatar-stack wrapper */}
+        <div className="cell-avatar-stack">
           <div className="cell-avatar-primary">{r.fullName}</div>
           <div className="cell-avatar-secondary">{r.email}</div>
         </div>
@@ -966,13 +1285,11 @@ function PatientsView({ toast }) {
     )},
     { key: "phoneNumber", label: "Teléfono" },
     { key: "active", label: "Estado", render: (r) => (
-      <button
-        className={`badge ${r.active ? "badge-green" : "badge-red"}`}
+      <button className={`badge ${r.active ? "badge-green" : "badge-red"}`}
         style={{ cursor: togglingId === r.id ? "not-allowed" : "pointer", opacity: togglingId === r.id ? 0.6 : 1 }}
         disabled={togglingId === r.id}
         onClick={() => handleToggleActive(r)}
-        title="Clic para cambiar estado"
-      >
+        title="Clic para cambiar estado">
         {r.active ? "Activo" : "Inactivo"}
       </button>
     )},
@@ -986,10 +1303,10 @@ function PatientsView({ toast }) {
   return (
     <div>
       <div className="page-header">
-        <div className="page-header-left">
+        <div>
           <div className="page-eyebrow">Gestión</div>
           <div className="page-title">Pacientes</div>
-          <div className="page-subtitle">Registro y seguimiento de pacientes activos</div>
+          <div className="page-subtitle">Haz clic en una fila para ver el detalle completo</div>
         </div>
         <button className="btn btn-primary" onClick={() => { setForm({}); setModal("create"); }}>
           <Icon name="plus" size={14} /> Nuevo paciente
@@ -1002,16 +1319,13 @@ function PatientsView({ toast }) {
             <div className="card-subtitle">{Array.isArray(data) ? data.length : "—"} registros</div>
           </div>
         </div>
-        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay pacientes registrados" emptyIcon="patients" />
+        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay pacientes registrados" emptyIcon="patients" onRowClick={(r) => setDrawerPatient(r)} />
       </div>
 
+      {drawerPatient && <PatientDrawer patient={drawerPatient} onClose={() => setDrawerPatient(null)} />}
+
       {(modal === "create" || modal === "edit") && (
-        <Modal
-          title={modal === "create" ? "Nuevo paciente" : "Editar paciente"}
-          desc={modal === "create" ? "Complete los datos del nuevo paciente" : "Actualice la información del paciente"}
-          icon="patients"
-          onClose={() => setModal(null)} onSave={handleSave} saving={saving}
-        >
+        <Modal title={modal === "create" ? "Nuevo paciente" : "Editar paciente"} desc={modal === "create" ? "Complete los datos del nuevo paciente" : "Actualice la información"} icon="patients" onClose={() => setModal(null)} onSave={handleSave} saving={saving}>
           <div className="form-grid">
             <div className="form-group full"><label>Nombre completo</label><input value={form.fullName || ""} onChange={(e) => f("fullName", e.target.value)} placeholder="Ej: María García López" /></div>
             <div className="form-group">
@@ -1038,6 +1352,7 @@ function DoctorsView({ toast }) {
   const { data: specs } = useData(() => api.get("/specialties"));
   const [modal, setModal] = useState(null);
   const [selected, setSelected] = useState(null);
+  const [drawerDoctor, setDrawerDoctor] = useState(null);
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
   const [togglingId, setTogglingId] = useState(null);
@@ -1058,8 +1373,7 @@ function DoctorsView({ toast }) {
     setTogglingId(r.id);
     try {
       await api.patch(`/doctors/${r.id}`, { specialtyId: r.specialtyId, fullName: r.fullName, email: r.email, phoneNumber: r.phoneNumber, numberLicense: r.numberLicense ?? r.licenseNumber, documentNumber: r.documentNumber, documentType: r.documentType, active: !r.active });
-      toast(`Médico ${!r.active ? "activado" : "inactivado"}`, "success");
-      reload();
+      toast(`Médico ${!r.active ? "activado" : "inactivado"}`, "success"); reload();
     } catch (e) { toast(e.message || "Error", "error"); }
     finally { setTogglingId(null); }
   };
@@ -1070,7 +1384,7 @@ function DoctorsView({ toast }) {
     { key: "fullName", label: "Médico", primary: true, render: (r) => (
       <div className="cell-with-avatar">
         <Initials name={r.fullName} variant="blue" />
-        <div className="cell-avatar-info">
+        <div className="cell-avatar-stack">
           <div className="cell-avatar-primary">{r.fullName}</div>
           <div className="cell-avatar-secondary">{r.email}</div>
         </div>
@@ -1080,7 +1394,9 @@ function DoctorsView({ toast }) {
     { key: "documentNumber", label: "Documento", render: (r) => r.documentNumber ? <span className="td-mono">{r.documentType} {r.documentNumber}</span> : "—" },
     { key: "licenseNumber", label: "Licencia", render: (r) => <span className="td-mono">{r.numberLicense ?? r.licenseNumber ?? "—"}</span> },
     { key: "active", label: "Estado", render: (r) => (
-      <button className={`badge ${r.active ? "badge-green" : "badge-red"}`} style={{ cursor: togglingId === r.id ? "not-allowed" : "pointer", opacity: togglingId === r.id ? 0.6 : 1 }} disabled={togglingId === r.id} onClick={() => handleToggleActive(r)} title="Clic para cambiar estado">
+      <button className={`badge ${r.active ? "badge-green" : "badge-red"}`}
+        style={{ cursor: togglingId === r.id ? "not-allowed" : "pointer", opacity: togglingId === r.id ? 0.6 : 1 }}
+        disabled={togglingId === r.id} onClick={() => handleToggleActive(r)} title="Clic para cambiar estado">
         {r.active ? "Activo" : "Inactivo"}
       </button>
     )},
@@ -1094,10 +1410,10 @@ function DoctorsView({ toast }) {
   return (
     <div>
       <div className="page-header">
-        <div className="page-header-left">
+        <div>
           <div className="page-eyebrow">Gestión</div>
           <div className="page-title">Médicos</div>
-          <div className="page-subtitle">Personal médico y especialistas registrados</div>
+          <div className="page-subtitle">Haz clic en una fila para ver el detalle completo</div>
         </div>
         <button className="btn btn-primary" onClick={() => { setForm({}); setModal("create"); }}>
           <Icon name="plus" size={14} /> Nuevo médico
@@ -1110,8 +1426,10 @@ function DoctorsView({ toast }) {
             <div className="card-subtitle">{Array.isArray(data) ? data.length : "—"} registros</div>
           </div>
         </div>
-        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay médicos registrados" emptyIcon="doctors" />
+        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay médicos registrados" emptyIcon="doctors" onRowClick={(r) => setDrawerDoctor(r)} />
       </div>
+
+      {drawerDoctor && <DoctorDrawer doctor={drawerDoctor} specialties={specs} onClose={() => setDrawerDoctor(null)} />}
 
       {(modal === "create" || modal === "edit") && (
         <Modal title={modal === "create" ? "Nuevo médico" : "Editar médico"} desc="Información del profesional médico" icon="stethoscope" onClose={() => setModal(null)} onSave={handleSave} saving={saving}>
@@ -1149,7 +1467,6 @@ function AppointmentsView({ toast }) {
   const { data: doctors } = useData(() => api.get("/doctors"));
   const { data: offices } = useData(() => api.get("/offices"));
   const { data: apptypes } = useData(() => api.get("/appointment-types"));
-
   const [modal, setModal] = useState(null);
   const [cancelId, setCancelId] = useState(null);
   const [cancelReason, setCancelReason] = useState("");
@@ -1159,7 +1476,7 @@ function AppointmentsView({ toast }) {
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [step, setStep] = useState(1);
-
+  const [drawerAppt, setDrawerAppt] = useState(null);
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
   const fetchSlots = async (doctorId, officeId, date, appointmentTypeId) => {
@@ -1192,24 +1509,27 @@ function AppointmentsView({ toast }) {
       await api.patch(`/appointments/${id}/${action}`, body);
       const labels = { confirm:"confirmada", cancel:"cancelada", complete:"completada", "no-show":"marcada como no-show" };
       toast(`Cita ${labels[action]}`, "success"); reload();
+      if (drawerAppt && drawerAppt.id === id) setDrawerAppt(null);
     } catch (e) { toast(e.message || "Error", "error"); }
   };
 
   const getName = (list, id) => (list || []).find((x) => x.id === id)?.fullName ?? (list || []).find((x) => x.id === id)?.name ?? "—";
 
   const statusMap = {
-    SCHEDULED:  ["Programada",  "badge-blue"],
-    CONFIRMED:  ["Confirmada",  "badge-green"],
-    CANCELLED:  ["Cancelada",   "badge-red"],
-    COMPLETED:  ["Completada",  "badge-gray"],
-    NO_SHOW:    ["No asistió",  "badge-warn"],
+    SCHEDULED: ["Programada","badge-blue"],
+    CONFIRMED: ["Confirmada","badge-green"],
+    CANCELLED: ["Cancelada","badge-red"],
+    COMPLETED: ["Completada","badge-gray"],
+    NO_SHOW:   ["No asistió","badge-warn"],
   };
 
   const cols = [
     { key: "patientId", label: "Paciente", primary: true, render: (r) => (
       <div className="cell-with-avatar">
-        <Initials name={getName(patients, r.patientId)} variant="wine" />
-        <div className="cell-avatar-primary" style={{ fontSize: 13.5 }}>{getName(patients, r.patientId)}</div>
+        <Initials name={getName(patients, r.patientId)} variant="teal" />
+        <div className="cell-avatar-stack">
+          <div className="cell-avatar-primary">{getName(patients, r.patientId)}</div>
+        </div>
       </div>
     )},
     { key: "doctorId", label: "Médico", render: (r) => getName(doctors, r.doctorId) },
@@ -1234,10 +1554,10 @@ function AppointmentsView({ toast }) {
   return (
     <div>
       <div className="page-header">
-        <div className="page-header-left">
+        <div>
           <div className="page-eyebrow">Gestión</div>
           <div className="page-title">Citas médicas</div>
-          <div className="page-subtitle">Agendamiento y seguimiento de consultas</div>
+          <div className="page-subtitle">Haz clic en una fila para ver todos los detalles</div>
         </div>
         <button className="btn btn-primary" onClick={handleOpenCreate}><Icon name="plus" size={14} /> Nueva cita</button>
       </div>
@@ -1248,8 +1568,10 @@ function AppointmentsView({ toast }) {
             <div className="card-subtitle">{Array.isArray(data) ? data.length : "—"} citas en total</div>
           </div>
         </div>
-        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay citas registradas" emptyIcon="appointments" />
+        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay citas registradas" emptyIcon="appointments" onRowClick={(r) => setDrawerAppt(r)} />
       </div>
+
+      {drawerAppt && <AppointmentDrawer appointment={drawerAppt} patients={patients} doctors={doctors} offices={offices} apptypes={apptypes} onClose={() => setDrawerAppt(null)} />}
 
       {cancelId && (
         <Modal title="Cancelar cita" desc="Esta acción no se puede deshacer" icon="cancel" onClose={() => setCancelId(null)} onSave={handleCancel} saving={saving}>
@@ -1276,51 +1598,44 @@ function AppointmentsView({ toast }) {
               <span>Horario disponible</span>
             </div>
           </div>
-
           {step === 1 && (
             <div>
               <div className="form-grid">
-                <div className="form-group">
-                  <label>Paciente</label>
+                <div className="form-group"><label>Paciente</label>
                   <select value={form.patientId || ""} onChange={(e) => f("patientId", e.target.value)}>
                     <option value="">Seleccione…</option>
                     {(patients || []).map((p) => <option key={p.id} value={p.id}>{p.fullName}</option>)}
                   </select>
                 </div>
-                <div className="form-group">
-                  <label>Médico tratante</label>
+                <div className="form-group"><label>Médico tratante</label>
                   <select value={form.doctorId || ""} onChange={(e) => f("doctorId", e.target.value)}>
                     <option value="">Seleccione…</option>
                     {(doctors || []).map((d) => <option key={d.id} value={d.id}>{d.fullName}</option>)}
                   </select>
                 </div>
-                <div className="form-group">
-                  <label>Consultorio</label>
+                <div className="form-group"><label>Consultorio</label>
                   <select value={form.officeId || ""} onChange={(e) => f("officeId", e.target.value)}>
                     <option value="">Seleccione…</option>
                     {(offices || []).map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
                   </select>
                 </div>
-                <div className="form-group">
-                  <label>Tipo de cita</label>
+                <div className="form-group"><label>Tipo de cita</label>
                   <select value={form.appointmentTypeId || ""} onChange={(e) => f("appointmentTypeId", e.target.value)}>
                     <option value="">Seleccione…</option>
                     {(apptypes || []).map((t) => <option key={t.id} value={t.id}>{t.name} ({t.durationMinutes} min)</option>)}
                   </select>
                 </div>
-                <div className="form-group">
-                  <label>Fecha de consulta</label>
+                <div className="form-group"><label>Fecha de consulta</label>
                   <input type="date" value={form.date || ""} onChange={(e) => f("date", e.target.value)} />
                 </div>
               </div>
-              <div style={{ marginTop: 24, textAlign: "right" }}>
+              <div style={{ marginTop: 22, textAlign: "right" }}>
                 <button type="button" className="btn btn-primary" onClick={handleNextStep}>
                   Ver disponibilidad <Icon name="chevron" size={13} />
                 </button>
               </div>
             </div>
           )}
-
           {step === 2 && (
             <div>
               <div className="info-box">
@@ -1332,7 +1647,7 @@ function AppointmentsView({ toast }) {
                 ? <div className="empty-state"><p>Sin disponibilidad para esta fecha o criterios seleccionados</p></div>
                 : (
                   <div>
-                    <div style={{ fontSize: 12, color: "var(--ink-ghost)", marginBottom: 12 }}>{slots.length} horarios disponibles</div>
+                    <div style={{ fontSize: 12, color: "var(--ink-ghost)", marginBottom: 10 }}>{slots.length} horarios disponibles</div>
                     <div className="avail-grid">
                       {slots.map((s, i) => {
                         const hourStr = s.startsAt ?? s;
@@ -1354,7 +1669,7 @@ function AppointmentsView({ toast }) {
                   Horario seleccionado: <strong style={{ marginLeft: 4 }}>{selectedSlot.startsAt}{selectedSlot.endsAt ? ` – ${selectedSlot.endsAt}` : ""}</strong>
                 </div>
               )}
-              <div style={{ marginTop: 20 }}>
+              <div style={{ marginTop: 18 }}>
                 <button type="button" className="btn btn-ghost btn-sm" onClick={() => setStep(1)}>← Volver</button>
               </div>
             </div>
@@ -1393,7 +1708,7 @@ function SpecialtiesView({ toast }) {
   const cols = [
     { key: "name", label: "Especialidad", primary: true, render: (r) => (
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <div style={{ width: 28, height: 28, borderRadius: 7, background: "var(--wine-pale)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--wine)", flexShrink: 0 }}>
+        <div style={{ width: 28, height: 28, borderRadius: 7, background: "var(--teal-pale)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--teal)", flexShrink: 0 }}>
           <Icon name="specialties" size={14} />
         </div>
         <span style={{ fontWeight: 500, color: "var(--ink)" }}>{r.name}</span>
@@ -1411,7 +1726,7 @@ function SpecialtiesView({ toast }) {
   return (
     <div>
       <div className="page-header">
-        <div className="page-header-left">
+        <div>
           <div className="page-eyebrow">Catálogo</div>
           <div className="page-title">Especialidades</div>
           <div className="page-subtitle">Áreas médicas y especialidades disponibles</div>
@@ -1475,7 +1790,9 @@ function OfficesView({ toast }) {
     )},
     { key: "location", label: "Ubicación" },
     { key: "active", label: "Estado", render: (r) => (
-      <button className={`badge ${r.active ? "badge-green" : "badge-red"}`} style={{ cursor: togglingId === r.id ? "not-allowed" : "pointer", opacity: togglingId === r.id ? 0.6 : 1 }} disabled={togglingId === r.id} onClick={() => handleToggleActive(r)} title="Clic para cambiar estado">
+      <button className={`badge ${r.active ? "badge-green" : "badge-red"}`}
+        style={{ cursor: togglingId === r.id ? "not-allowed" : "pointer", opacity: togglingId === r.id ? 0.6 : 1 }}
+        disabled={togglingId === r.id} onClick={() => handleToggleActive(r)} title="Clic para cambiar estado">
         {r.active ? "Activo" : "Inactivo"}
       </button>
     )},
@@ -1489,7 +1806,7 @@ function OfficesView({ toast }) {
   return (
     <div>
       <div className="page-header">
-        <div className="page-header-left">
+        <div>
           <div className="page-eyebrow">Catálogo</div>
           <div className="page-title">Consultorios</div>
           <div className="page-subtitle">Espacios físicos de atención médica</div>
@@ -1557,7 +1874,7 @@ function AppTypesView({ toast }) {
   return (
     <div>
       <div className="page-header">
-        <div className="page-header-left">
+        <div>
           <div className="page-eyebrow">Catálogo</div>
           <div className="page-title">Tipos de cita</div>
           <div className="page-subtitle">Modalidades y duraciones de consulta</div>
@@ -1624,14 +1941,13 @@ function SchedulesView({ toast }) {
   return (
     <div>
       <div className="page-header">
-        <div className="page-header-left">
+        <div>
           <div className="page-eyebrow">Operación</div>
           <div className="page-title">Horarios médicos</div>
           <div className="page-subtitle">Configure la disponibilidad semanal de cada médico</div>
         </div>
       </div>
-
-      <div className="card" style={{ marginBottom: 20 }}>
+      <div className="card" style={{ marginBottom: 18 }}>
         <div className="card-header"><div className="card-title">Seleccionar médico</div></div>
         <div className="card-body">
           <div className="form-grid" style={{ maxWidth: 380 }}>
@@ -1644,7 +1960,7 @@ function SchedulesView({ toast }) {
             </div>
           </div>
           {selectedDoctor && (
-            <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ marginTop: 11, display: "flex", alignItems: "center", gap: 10 }}>
               <Initials name={selectedDoctor.fullName} variant="blue" />
               <div>
                 <div style={{ fontSize: 13, fontWeight: 500, color: "var(--ink)" }}>{selectedDoctor.fullName}</div>
@@ -1654,7 +1970,6 @@ function SchedulesView({ toast }) {
           )}
         </div>
       </div>
-
       {doctorId && (
         <div className="card">
           <div className="card-header">
@@ -1679,7 +1994,7 @@ function SchedulesView({ toast }) {
                       <div className="schedule-day-name">{DAY_ES[s.dayOfWeek] ?? s.dayOfWeek}</div>
                       <div style={{ display: "flex", gap: 4 }}>
                         <button className="btn-icon" onClick={() => { setSelected(s); setForm({ dayOfWeek: s.dayOfWeek, startAt: s.startsAt, endAt: s.endsAt }); setModal("edit"); }}><Icon name="edit" size={13} /></button>
-                        <button className="btn-icon" style={{ color: "var(--wine)" }} onClick={() => handleDelete(s.id)}><Icon name="trash" size={13} /></button>
+                        <button className="btn-icon" style={{ color: "var(--danger)" }} onClick={() => handleDelete(s.id)}><Icon name="trash" size={13} /></button>
                       </div>
                     </div>
                     <div className="schedule-day-time"><Icon name="clock" size={13} /> {s.startsAt} → {s.endsAt}</div>
@@ -1690,7 +2005,6 @@ function SchedulesView({ toast }) {
           </div>
         </div>
       )}
-
       {modal && (
         <Modal title={modal === "edit" ? "Editar horario" : "Agregar horario"} icon="schedules" onClose={() => { setModal(null); setSelected(null); setForm({}); }} onSave={handleSave} saving={saving}>
           <div className="form-grid">
@@ -1736,51 +2050,45 @@ function AvailabilityView() {
   return (
     <div>
       <div className="page-header">
-        <div className="page-header-left">
+        <div>
           <div className="page-eyebrow">Operación</div>
           <div className="page-title">Disponibilidad</div>
           <div className="page-subtitle">Consulte los horarios libres de un médico</div>
         </div>
       </div>
-
-      <div className="card" style={{ marginBottom: 20 }}>
+      <div className="card" style={{ marginBottom: 18 }}>
         <div className="card-header"><div className="card-title">Parámetros de búsqueda</div></div>
         <div className="card-body">
           <div className="form-grid">
-            <div className="form-group">
-              <label>Médico</label>
+            <div className="form-group"><label>Médico</label>
               <select value={doctorId} onChange={(e) => setDoctorId(e.target.value)}>
                 <option value="">Seleccione…</option>
                 {(doctors || []).map((d) => <option key={d.id} value={d.id}>{d.fullName}</option>)}
               </select>
             </div>
-            <div className="form-group">
-              <label>Consultorio (opcional)</label>
+            <div className="form-group"><label>Consultorio (opcional)</label>
               <select value={officeId} onChange={(e) => setOfficeId(e.target.value)}>
                 <option value="">Todos los consultorios</option>
                 {(offices || []).map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
               </select>
             </div>
-            <div className="form-group">
-              <label>Fecha</label>
+            <div className="form-group"><label>Fecha</label>
               <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} />
             </div>
-            <div className="form-group">
-              <label>Tipo de cita (opcional)</label>
+            <div className="form-group"><label>Tipo de cita (opcional)</label>
               <select value={appointmentTypeId} onChange={(e) => setAppointmentTypeId(e.target.value)}>
                 <option value="">Jornada completa</option>
                 {(apptypes || []).map((t) => <option key={t.id} value={t.id}>{t.name} ({t.durationMinutes} min)</option>)}
               </select>
             </div>
           </div>
-          <div style={{ marginTop: 18 }}>
+          <div style={{ marginTop: 16 }}>
             <button className="btn btn-primary" onClick={search} disabled={!doctorId}>
               <Icon name="search" size={14} /> Consultar disponibilidad
             </button>
           </div>
         </div>
       </div>
-
       {loading && <div className="spinner" />}
       {slots && !loading && (
         <div className="card">
@@ -1819,25 +2127,20 @@ function ReportsView() {
   return (
     <div>
       <div className="page-header">
-        <div className="page-header-left">
+        <div>
           <div className="page-eyebrow">Análisis</div>
           <div className="page-title">Reportes clínicos</div>
           <div className="page-subtitle">Métricas de rendimiento y operación</div>
         </div>
       </div>
-
       <div className="tab-list">
         {[["occupancy","Ocupación consultorios"],["productivity","Productividad médicos"],["noshow","No-shows"]].map(([id, label]) => (
           <button key={id} className={`tab ${activeTab === id ? "active" : ""}`} onClick={() => setActiveTab(id)}>{label}</button>
         ))}
       </div>
-
       {activeTab === "occupancy" && (
         <div className="report-card">
-          <div className="report-header">
-            <span className="report-icon"><Icon name="offices" size={15} /></span>
-            <span className="report-title">Ocupación por consultorio</span>
-          </div>
+          <div className="report-header"><span className="report-icon"><Icon name="offices" size={15} /></span><span className="report-title">Ocupación por consultorio</span></div>
           <div className="report-body">
             <DataTable loading={l1} rows={Array.isArray(occupancy) ? occupancy : []} columns={[
               { key: "name", label: "Consultorio", primary: true },
@@ -1848,10 +2151,7 @@ function ReportsView() {
       )}
       {activeTab === "productivity" && (
         <div className="report-card">
-          <div className="report-header">
-            <span className="report-icon"><Icon name="doctors" size={15} /></span>
-            <span className="report-title">Productividad médicos</span>
-          </div>
+          <div className="report-header"><span className="report-icon"><Icon name="doctors" size={15} /></span><span className="report-title">Productividad médicos</span></div>
           <div className="report-body">
             <DataTable loading={l2} rows={Array.isArray(productivity) ? productivity : []} columns={[
               { key: "fullName", label: "Médico", primary: true },
@@ -1862,10 +2162,7 @@ function ReportsView() {
       )}
       {activeTab === "noshow" && (
         <div className="report-card">
-          <div className="report-header">
-            <span className="report-icon"><Icon name="noshow" size={15} /></span>
-            <span className="report-title">Pacientes con mayor no-show</span>
-          </div>
+          <div className="report-header"><span className="report-icon"><Icon name="noshow" size={15} /></span><span className="report-title">Pacientes con mayor no-show</span></div>
           <div className="report-body">
             <DataTable loading={l3} rows={Array.isArray(noshow) ? noshow : []} columns={[
               { key: "fullName", label: "Paciente", primary: true },
@@ -1884,13 +2181,15 @@ function DashboardView() {
   const { data: doctors } = useData(() => api.get("/doctors"));
   const { data: appointments } = useData(() => api.get("/appointments"));
   const { data: offices } = useData(() => api.get("/offices"));
+  const { data: apptypes } = useData(() => api.get("/appointment-types"));
+  const [drawerAppt, setDrawerAppt] = useState(null);
 
   const confirmedCount = (appointments || []).filter((a) => a.status === "CONFIRMED").length;
   const scheduledCount = (appointments || []).filter((a) => a.status === "SCHEDULED").length;
   const completedCount = (appointments || []).filter((a) => a.status === "COMPLETED").length;
 
   const stats = [
-    { label: "Pacientes registrados", value: (patients || []).length, delta: "en el sistema", icon: "patients", color: "wine" },
+    { label: "Pacientes registrados", value: (patients || []).length, delta: "en el sistema", icon: "patients", color: "teal" },
     { label: "Médicos activos", value: (doctors || []).length, delta: "disponibles", icon: "stethoscope", color: "blue" },
     { label: "Citas confirmadas", value: confirmedCount, delta: `${scheduledCount} pendientes de confirmar`, icon: "appointments", color: "green" },
     { label: "Citas completadas", value: completedCount, delta: "consultas finalizadas", icon: "check", color: "amber" },
@@ -1908,13 +2207,13 @@ function DashboardView() {
 
   return (
     <div>
-      <div className="page-header" style={{ marginBottom: 28 }}>
-        <div className="page-header-left">
+      <div className="page-header" style={{ marginBottom: 22 }}>
+        <div>
           <div className="page-eyebrow">Panel principal</div>
           <div className="page-title">Resumen clínico</div>
           <div className="page-subtitle">Vista general del estado del sistema</div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "var(--ink-ghost)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 12, color: "var(--ink-ghost)" }}>
           <Icon name="clock" size={13} />
           {new Date().toLocaleDateString("es-CO", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
         </div>
@@ -1935,17 +2234,20 @@ function DashboardView() {
         <div className="card-header">
           <div>
             <div className="card-title">Citas recientes</div>
-            <div className="card-subtitle">Últimas 8 citas registradas</div>
+            <div className="card-subtitle">Últimas 8 citas · haz clic para ver detalles</div>
           </div>
         </div>
         <DataTable
           rows={(appointments || []).slice(-8).reverse()}
           loading={false}
+          onRowClick={(r) => setDrawerAppt(r)}
           columns={[
             { key: "patientId", label: "Paciente", primary: true, render: (r) => (
               <div className="cell-with-avatar">
-                <Initials name={getName(patients, r.patientId)} variant="wine" />
-                <span className="cell-avatar-primary">{getName(patients, r.patientId)}</span>
+                <Initials name={getName(patients, r.patientId)} variant="teal" />
+                <div className="cell-avatar-stack">
+                  <div className="cell-avatar-primary">{getName(patients, r.patientId)}</div>
+                </div>
               </div>
             )},
             { key: "doctorId", label: "Médico", render: (r) => getName(doctors, r.doctorId) },
@@ -1957,6 +2259,17 @@ function DashboardView() {
           emptyIcon="appointments"
         />
       </div>
+
+      {drawerAppt && (
+        <AppointmentDrawer
+          appointment={drawerAppt}
+          patients={patients}
+          doctors={doctors}
+          offices={offices}
+          apptypes={apptypes}
+          onClose={() => setDrawerAppt(null)}
+        />
+      )}
     </div>
   );
 }
@@ -1997,13 +2310,16 @@ export default function MedicalApp() {
     <>
       <style>{styles}</style>
       <div className="app-shell">
-        {/* SIDEBAR */}
+        {/* ── SIDEBAR ── */}
         <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
           <div className="sidebar-logo">
             <div className="logo-mark">
-              <div className="logo-icon">🏥</div>
+              <div className="logo-icon">
+                <Icon name="monitor" size={20} />
+              </div>
               <div>
-                <div className="logo-name">MediCare</div>
+                {/* PC HEALTH branding */}
+                <div className="logo-name">PC <span>Health</span></div>
                 <div className="logo-sub">Sistema clínico</div>
               </div>
             </div>
@@ -2015,11 +2331,7 @@ export default function MedicalApp() {
               <div className="nav-section" key={sec}>
                 <div className="nav-section-label">{label}</div>
                 {Object.entries(VIEWS).filter(([, v]) => v.section === sec).map(([key, v]) => (
-                  <button
-                    key={key}
-                    className={`nav-item ${view === key ? "active" : ""}`}
-                    onClick={() => { setView(key); setSidebarOpen(false); }}
-                  >
+                  <button key={key} className={`nav-item ${view === key ? "active" : ""}`} onClick={() => { setView(key); setSidebarOpen(false); }}>
                     <Icon name={v.icon} size={16} />
                     {v.label}
                   </button>
@@ -2037,7 +2349,7 @@ export default function MedicalApp() {
           </div>
         </aside>
 
-        {/* MAIN */}
+        {/* ── MAIN ── */}
         <main className="main">
           <header className="topbar">
             <button className="btn-menu" onClick={() => setSidebarOpen((o) => !o)}>
@@ -2062,15 +2374,10 @@ export default function MedicalApp() {
           </div>
         </main>
 
-        {/* OVERLAY MOBILE */}
         {sidebarOpen && (
-          <div
-            style={{ position: "fixed", inset: 0, background: "rgba(28,20,16,0.4)", zIndex: 99 }}
-            onClick={() => setSidebarOpen(false)}
-          />
+          <div style={{ position: "fixed", inset: 0, background: "rgba(15,41,66,0.45)", zIndex: 99 }} onClick={() => setSidebarOpen(false)} />
         )}
 
-        {/* TOAST */}
         {toast && <Toast msg={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
       </div>
     </>
