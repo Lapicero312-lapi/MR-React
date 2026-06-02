@@ -14,14 +14,20 @@ const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     }).then((r) => { if (!r.ok) return r.json().then((e) => { throw new Error(e.message || r.status); }); return r.json(); }),
-  put: (path, body) =>
+  // ✅ PATCH en lugar de PUT
+  patch: (path, body) =>
     fetch(`${BASE_URL}${path}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: body !== undefined ? JSON.stringify(body) : undefined,
     }).then((r) => { if (!r.ok) return r.json().then((e) => { throw new Error(e.message || r.status); }); return r.json().catch(() => ({})); }),
+  
+  // 🌟 NUEVO: Método DELETE nativo ajustado a tu estilo
+  delete: (path) =>
+    fetch(`${BASE_URL}${path}`, {
+      method: "DELETE",
+    }).then((r) => { if (!r.ok) return r.json().then((e) => { throw new Error(e.message || r.status); }); return r.json().catch(() => ({})); }),
 };
-
 // ─── ICONS ────────────────────────────────────────────────────────────────────
 const Icon = ({ name, size = 18 }) => {
   const icons = {
@@ -35,13 +41,14 @@ const Icon = ({ name, size = 18 }) => {
     reports: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>),
     plus: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>),
     edit: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>),
-    eye: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>),
     close: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>),
     check: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg>),
     cancel: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>),
     noshow: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>),
     menu: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>),
     apptypes: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>),
+    clock: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>),
+    search: (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>),
   };
   return icons[name] || null;
 };
@@ -151,14 +158,29 @@ const styles = `
   .report-header { padding: 16px 22px; background: linear-gradient(135deg, rgba(79,142,247,0.08), rgba(124,92,252,0.06)); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
   .report-title { font-family: var(--font-head); font-size: 14px; font-weight: 600; }
   .report-body { padding: 20px 22px; }
-  .avail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
-  .avail-slot { background: rgba(0,212,170,0.08); border: 1px solid rgba(0,212,170,0.18); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 12px; color: var(--success); text-align: center; }
-  .avail-slot-time { font-weight: 600; font-size: 13px; }
+  .avail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 12px; }
+  .avail-slot { background: rgba(0,212,170,0.08); border: 1px solid rgba(0,212,170,0.18); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 12px; color: var(--success); text-align: center; cursor: pointer; transition: all var(--transition); }
+  .avail-slot:hover { background: rgba(0,212,170,0.18); transform: translateY(-2px); }
+  .avail-slot.selected { background: rgba(0,212,170,0.3); border-color: var(--success); box-shadow: 0 0 0 2px rgba(0,212,170,0.3); }
+  .avail-slot-time { font-weight: 700; font-size: 14px; }
   .avail-slot-label { color: var(--text3); font-size: 11px; margin-top: 2px; }
   .tab-list { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
   .tab { padding: 10px 16px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: none; color: var(--text3); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all var(--transition); }
   .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .tab:hover:not(.active) { color: var(--text); }
+  .step-indicator { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+  .step { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--text3); }
+  .step.active { color: var(--accent); }
+  .step.done { color: var(--success); }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+  .step.active .step-num { background: rgba(79,142,247,0.2); border-color: var(--accent); color: var(--accent); }
+  .step.done .step-num { background: rgba(0,212,170,0.15); border-color: var(--success); color: var(--success); }
+  .step-divider { flex: 1; height: 1px; background: var(--border); max-width: 40px; }
+  .info-box { background: rgba(79,142,247,0.07); border: 1px solid rgba(79,142,247,0.15); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: var(--text2); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .schedule-day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 4px; }
+  .schedule-day-card { background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 14px; }
+  .schedule-day-name { font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 6px; }
+  .schedule-day-time { font-size: 13px; color: var(--text2); display: flex; align-items: center; gap: 6px; }
   @media (max-width: 900px) {
     .main { margin-left: 0; } .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); }
     .btn-menu { display: flex; } .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -235,6 +257,8 @@ function Toast({ msg, type, onClose }) {
 }
 
 const DOC_TYPES = ["CC", "TI", "CE", "PASAPORTE", "NIT"];
+const DAYS = ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"];
+const DAY_ES = { MONDAY:"Lunes", TUESDAY:"Martes", WEDNESDAY:"Miércoles", THURSDAY:"Jueves", FRIDAY:"Viernes", SATURDAY:"Sábado", SUNDAY:"Domingo" };
 
 // ─── PATIENTS ─────────────────────────────────────────────────────────────────
 function PatientsView({ toast }) {
@@ -243,16 +267,40 @@ function PatientsView({ toast }) {
   const [selected, setSelected] = useState(null);
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
+  const [togglingId, setTogglingId] = useState(null); // 🌟 Evita clics dobles al cambiar estado rápido
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
     setSaving(true);
     try {
       if (modal === "create") await api.post("/patients", form);
-      else await api.put(`/patients/${selected.id}`, form);
+      else await api.patch(`/patients/${selected.id}`, form); // ✅ PATCH
       toast("Paciente guardado", "success"); reload(); setModal(null);
     } catch (e) { toast(e.message || "Error al guardar", "error"); }
     finally { setSaving(false); }
+  };
+
+  // 🌟 Función rápida para alternar el estado (Invertir Active/Inactive)
+  const handleToggleActive = async (r) => {
+    if (togglingId) return; // Si hay una petición en curso, bloquea el clic
+    setTogglingId(r.id);
+
+    try {
+      // Mandamos el estado invertido al PATCH del backend manteniendo sus datos existentes
+      await api.patch(`/patients/${r.id}`, {
+        fullName: r.fullName,
+        email: r.email,
+        phoneNumber: r.phoneNumber,
+        documentType: r.documentType,
+        active: !r.active
+      });
+      toast(`Paciente ${!r.active ? "activado" : "inactivado"}`, "success");
+      reload();
+    } catch (e) {
+      toast(e.message || "Error al cambiar el estado", "error");
+    } finally {
+      setTogglingId(null);
+    }
   };
 
   const cols = [
@@ -261,11 +309,27 @@ function PatientsView({ toast }) {
     { key: "documentNumber", label: "Documento" },
     { key: "email", label: "Email" },
     { key: "phoneNumber", label: "Teléfono" },
-    { key: "active", label: "Estado", render: (r) => <span className={`badge ${r.active ? "badge-green" : "badge-red"}`}>{r.active ? "Activo" : "Inactivo"}</span> },
+    { 
+      key: "active", 
+      label: "Estado", 
+      render: (r) => (
+        <button
+          className={`badge ${r.active ? "badge-green" : "badge-red"}`}
+          style={{ 
+            cursor: togglingId === r.id ? "not-allowed" : "pointer", 
+            border: "none",
+            opacity: togglingId === r.id ? 0.6 : 1
+          }}
+          disabled={togglingId === r.id}
+          onClick={() => handleToggleActive(r)}
+          title="Haz clic para cambiar el estado"
+        >
+          {r.active ? "Activo" : "Inactivo"}
+        </button>
+      ) 
+    },
     { key: "actions", label: "", render: (r) => (
-      <div className="actions-row">
-        <button className="btn btn-ghost btn-sm" onClick={() => { setSelected(r); setForm({ fullName: r.fullName, email: r.email, phoneNumber: r.phoneNumber, documentType: r.documentType }); setModal("edit"); }}><Icon name="edit" size={13} /></button>
-      </div>
+      <button className="btn btn-ghost btn-sm" onClick={() => { setSelected(r); setForm({ fullName: r.fullName, email: r.email, phoneNumber: r.phoneNumber, documentType: r.documentType }); setModal("edit"); }}><Icon name="edit" size={13} /></button>
     )},
   ];
 
@@ -307,29 +371,93 @@ function DoctorsView({ toast }) {
   const [selected, setSelected] = useState(null);
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
+  const [togglingId, setTogglingId] = useState(null); // 🌟 Evita clics dobles al cambiar estado rápido
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
     setSaving(true);
     try {
       if (modal === "create") await api.post("/doctors", form);
-      else await api.put(`/doctors/${selected.id}`, form);
+      else await api.patch(`/doctors/${selected.id}`, form); // ✅ PATCH
       toast("Médico guardado", "success"); reload(); setModal(null);
     } catch (e) { toast(e.message || "Error", "error"); }
     finally { setSaving(false); }
   };
 
-  const getSpecName = (id) => (specs || []).find((s) => s.id === id)?.name ?? id ?? "—";
+  // 🌟 Función rápida para alternar el estado (Invertir Active/Inactive)
+  const handleToggleActive = async (r) => {
+    if (togglingId) return; // Si hay una petición en curso, bloquea el clic
+    setTogglingId(r.id);
+
+    try {
+      // Mandamos el estado invertido al PATCH del backend manteniendo sus datos obligatorios
+      await api.patch(`/doctors/${r.id}`, {
+        specialtyId: r.specialtyId,
+        fullName: r.fullName,
+        email: r.email,
+        phoneNumber: r.phoneNumber,
+        numberLicense: r.numberLicense ?? r.licenseNumber,
+        documentNumber: r.documentNumber,
+        documentType: r.documentType,
+        active: !r.active
+      });
+      toast(`Médico ${!r.active ? "activado" : "inactivado"}`, "success");
+      reload();
+    } catch (e) {
+      toast(e.message || "Error al cambiar el estado", "error");
+    } finally {
+      setTogglingId(null);
+    }
+  };
+
+  const getSpecName = (id) => (specs || []).find((s) => s.id === id)?.name ?? "—";
 
   const cols = [
     { key: "fullName", label: "Nombre completo", bold: true },
     { key: "specialtyId", label: "Especialidad", render: (r) => <span className="badge badge-purple">{getSpecName(r.specialtyId)}</span> },
+    // 🌟 NUEVA COLUMNA: Muestra el tipo junto con el número de documento del Doctor
+    { key: "documentNumber", label: "Documento", render: (r) => r.documentNumber ? `${r.documentType ?? ""} ${r.documentNumber}` : "—" },
     { key: "email", label: "Email" },
     { key: "phoneNumber", label: "Teléfono" },
-    { key: "numberLicense", label: "Licencia" },
-    { key: "active", label: "Estado", render: (r) => <span className={`badge ${r.active ? "badge-green" : "badge-red"}`}>{r.active ? "Activo" : "Inactivo"}</span> },
+    { key: "licenseNumber", label: "Licencia", render: (r) => r.numberLicense ?? r.licenseNumber ?? "—" },
+    { 
+      key: "active", 
+      label: "Estado", 
+      render: (r) => (
+        <button
+          className={`badge ${r.active ? "badge-green" : "badge-red"}`}
+          style={{ 
+            cursor: togglingId === r.id ? "not-allowed" : "pointer", 
+            border: "none",
+            opacity: togglingId === r.id ? 0.6 : 1
+          }}
+          disabled={togglingId === r.id}
+          onClick={() => handleToggleActive(r)}
+          title="Haz clic para cambiar el estado"
+        >
+          {r.active ? "Activo" : "Inactivo"}
+        </button>
+      ) 
+    },
     { key: "actions", label: "", render: (r) => (
-      <button className="btn btn-ghost btn-sm" onClick={() => { setSelected(r); setForm({ specialtyId: r.specialtyId, fullName: r.fullName, email: r.email, phoneNumber: r.phoneNumber, numberLicense: r.numberLicense, documentNumber: r.documentNumber, active: r.active }); setModal("edit"); }}><Icon name="edit" size={13} /></button>
+      <button 
+        className="btn btn-ghost btn-sm" 
+        onClick={() => { 
+          setSelected(r); 
+          setForm({ 
+            specialtyId: r.specialtyId, 
+            fullName: r.fullName, 
+            email: r.email, 
+            phoneNumber: r.phoneNumber, 
+            numberLicense: r.numberLicense ?? r.licenseNumber,
+            documentType: r.documentType,   // 🌟 Cargamos el tipo de documento al editar
+            documentNumber: r.documentNumber // 🌟 Cargamos el número de documento al editar
+          }); 
+          setModal("edit"); 
+        }}
+      >
+        <Icon name="edit" size={13} />
+      </button>
     )},
   ];
 
@@ -355,22 +483,15 @@ function DoctorsView({ toast }) {
             <div className="form-group"><label>Email</label><input type="email" value={form.email || ""} onChange={(e) => f("email", e.target.value)} /></div>
             <div className="form-group"><label>Teléfono</label><input value={form.phoneNumber || ""} onChange={(e) => f("phoneNumber", e.target.value)} /></div>
             <div className="form-group"><label>Número de licencia</label><input value={form.numberLicense || ""} onChange={(e) => f("numberLicense", e.target.value)} /></div>
-            {modal === "create" && <>
-              <div className="form-group"><label>Tipo de documento</label>
-                <select value={form.documentType || ""} onChange={(e) => f("documentType", e.target.value)}>
-                  <option value="">Selecciona…</option>
-                  {DOC_TYPES.map((d) => <option key={d} value={d}>{d}</option>)}
-                </select>
-              </div>
-              <div className="form-group"><label>Número de documento</label><input value={form.documentNumber || ""} onChange={(e) => f("documentNumber", e.target.value)} /></div>
-            </>}
-            {modal === "edit" && (
-              <div className="form-group"><label>Activo</label>
-                <select value={form.active === true ? "true" : "false"} onChange={(e) => f("active", e.target.value === "true")}>
-                  <option value="true">Sí</option><option value="false">No</option>
-                </select>
-              </div>
-            )}
+            
+            {/* 🌟 Ahora el tipo y número de documento se renderizan o editan de forma consistente */}
+            <div className="form-group"><label>Tipo de documento</label>
+              <select value={form.documentType || ""} onChange={(e) => f("documentType", e.target.value)} disabled={modal === "edit"}>
+                <option value="">Selecciona…</option>
+                {DOC_TYPES.map((d) => <option key={d} value={d}>{d}</option>)}
+              </select>
+            </div>
+            <div className="form-group"><label>Número de documento</label><input value={form.documentNumber || ""} onChange={(e) => f("documentNumber", e.target.value)} disabled={modal === "edit"} /></div>
           </div>
         </Modal>
       )}
@@ -378,101 +499,266 @@ function DoctorsView({ toast }) {
   );
 }
 
-// ─── APPOINTMENTS ─────────────────────────────────────────────────────────────
+// ─── APPOINTMENTS (con slots de disponibilidad segmentados) ───────────────────
 function AppointmentsView({ toast }) {
   const { data, loading, reload } = useData(() => api.get("/appointments"));
   const { data: patients } = useData(() => api.get("/patients"));
   const { data: doctors } = useData(() => api.get("/doctors"));
   const { data: offices } = useData(() => api.get("/offices"));
   const { data: apptypes } = useData(() => api.get("/appointment-types"));
+
   const [modal, setModal] = useState(null);
+  const [cancelId, setCancelId] = useState(null);
+  const [cancelReason, setCancelReason] = useState("");
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
+
+  // ─ Disponibilidad ─
+  const [slots, setSlots] = useState([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [step, setStep] = useState(1); // 1=datos básicos, 2=elegir slot
+
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
-  const statusMap = {
-    CONFIRMED: ["Confirmada", "badge-green"],
-    PENDING: ["Pendiente", "badge-warn"],
-    CANCELLED: ["Cancelada", "badge-red"],
-    COMPLETED: ["Completada", "badge-blue"],
-    NO_SHOW: ["No asistió", "badge-gray"],
+  // Modificado para pasar dinámicamente el Tipo de Cita al Backend
+  const fetchSlots = async (doctorId, officeId, date, appointmentTypeId) => {
+    if (!doctorId || !officeId || !date || !appointmentTypeId) return;
+    setLoadingSlots(true);
+    setSlots([]);
+    setSelectedSlot(null);
+    try {
+      const data = await api.get(
+        `/availability/doctors/${doctorId}?officeId=${officeId}&date=${date}&appointmentTypeId=${appointmentTypeId}`
+      );
+      setSlots(Array.isArray(data) ? data : []);
+    } catch {
+      setSlots([]);
+    } finally {
+      setLoadingSlots(false);
+    }
   };
 
-  const doAction = async (id, action) => {
-    try {
-      await api.put(`/appointments/${id}/${action}`);
-      const labels = { confirm: "confirmada", cancel: "cancelada", complete: "completada", "no-show": "marcada como no-show" };
-      toast(`Cita ${labels[action]}`, "success"); reload();
-    } catch (e) { toast(e.message || "Error", "error"); }
+  const handleOpenCreate = () => {
+    setForm({});
+    setSlots([]);
+    setSelectedSlot(null);
+    setStep(1);
+    setModal("create");
+  };
+
+  const handleNextStep = () => {
+    if (!form.doctorId || !form.officeId || !form.date || !form.appointmentTypeId) {
+      toast("Completa doctor, consultorio, tipo de cita y fecha primero", "error");
+      return;
+    }
+    fetchSlots(form.doctorId, form.officeId, form.date, form.appointmentTypeId);
+    setStep(2);
   };
 
   const handleSave = async () => {
+    if (!selectedSlot) { toast("Selecciona un horario disponible", "error"); return; }
     setSaving(true);
     try {
-      await api.post("/appointments", form);
-      toast("Cita creada", "success"); reload(); setModal(null);
-    } catch (e) { toast(e.message || "Error al crear cita", "error"); }
-    finally { setSaving(false); }
+      const payload = { 
+        ...form, 
+        startsAt: selectedSlot.startsAt,
+        observations: form.observations || "Sin observaciones" 
+      };
+      await api.post("/appointments", payload);
+      toast("Cita creada exitosamente", "success");
+      reload();
+      setModal(null);
+    } catch (e) { 
+      toast(e.message || "Error al crear cita", "error"); 
+    } finally { 
+      setSaving(false); 
+    }
+  };
+
+  const doAction = async (id, action, body) => {
+    try {
+      await api.patch(`/appointments/${id}/${action}`, body);
+      const labels = { confirm: "confirmada", cancel: "cancelada", complete: "completada", "no-show": "marcada como no-show" };
+      toast(`Cita ${labels[action]}`, "success");
+      reload();
+    } catch (e) { toast(e.message || "Error", "error"); }
   };
 
   const getName = (list, id) => (list || []).find((x) => x.id === id)?.fullName ?? (list || []).find((x) => x.id === id)?.name ?? id ?? "—";
 
+  const statusMap = {
+    SCHEDULED: ["Programada", "badge-blue"],
+    CONFIRMED: ["Confirmada", "badge-green"],
+    CANCELLED: ["Cancelada", "badge-red"],
+    COMPLETED: ["Completada", "badge-gray"],
+    NO_SHOW: ["No asistió", "badge-warn"],
+  };
+
   const cols = [
     { key: "patientId", label: "Paciente", bold: true, render: (r) => getName(patients, r.patientId) },
     { key: "doctorId", label: "Médico", render: (r) => getName(doctors, r.doctorId) },
-    { key: "date", label: "Fecha", render: (r) => r.date ?? "—" },
-    { key: "startsAt", label: "Hora", render: (r) => r.startAt ?? r.startsAt ?? "—" },
+    { key: "date", label: "Fecha" },
+    { key: "startAt", label: "Hora", render: (r) => r.startAt ?? r.startsAt ?? "—" },
     { key: "status", label: "Estado", render: (r) => { const [l, c] = statusMap[r.status] ?? ["—", "badge-gray"]; return <span className={`badge ${c}`}>{l}</span>; } },
     { key: "actions", label: "Acciones", render: (r) => (
       <div className="actions-row">
-        {r.status === "PENDING" && <button className="btn btn-success btn-sm" onClick={() => doAction(r.id, "confirm")}><Icon name="check" size={12} /> Confirmar</button>}
-        {(r.status === "PENDING" || r.status === "CONFIRMED") && <button className="btn btn-danger btn-sm" onClick={() => doAction(r.id, "cancel")}><Icon name="cancel" size={12} /> Cancelar</button>}
+        {r.status === "SCHEDULED" && <button className="btn btn-success btn-sm" onClick={() => doAction(r.id, "confirm")}><Icon name="check" size={12} /> Confirmar</button>}
+        {(r.status === "SCHEDULED" || r.status === "CONFIRMED") && <button className="btn btn-danger btn-sm" onClick={() => setCancelId(r.id)}><Icon name="cancel" size={12} /> Cancelar</button>}
         {r.status === "CONFIRMED" && <button className="btn btn-ghost btn-sm" onClick={() => doAction(r.id, "complete")}>Completar</button>}
-        {(r.status === "PENDING" || r.status === "CONFIRMED") && <button className="btn btn-warn btn-sm" onClick={() => doAction(r.id, "no-show")}><Icon name="noshow" size={12} /> No-show</button>}
+        {r.status === "CONFIRMED" && <button className="btn btn-warn btn-sm" onClick={() => doAction(r.id, "no-show")}><Icon name="noshow" size={12} /> No-show</button>}
       </div>
     )},
   ];
+
+  const handleCancel = async () => {
+    if (!cancelReason.trim()) { toast("Ingresa el motivo de cancelación", "error"); return; }
+    await doAction(cancelId, "cancel", { cancelReason });
+    setCancelId(null);
+    setCancelReason("");
+  };
 
   return (
     <div>
       <div className="card">
         <div className="card-header">
           <span className="card-title">Citas</span>
-          <button className="btn btn-primary" onClick={() => { setForm({}); setModal("create"); }}><Icon name="plus" size={14} /> Nueva cita</button>
+          <button className="btn btn-primary" onClick={handleOpenCreate}><Icon name="plus" size={14} /> Nueva cita</button>
         </div>
         <DataTable columns={cols} rows={data} loading={loading} />
       </div>
-      {modal === "create" && (
-        <Modal title="Nueva cita" onClose={() => setModal(null)} onSave={handleSave} saving={saving}>
-          <div className="form-grid">
-            <div className="form-group"><label>Paciente</label>
-              <select value={form.patientId || ""} onChange={(e) => f("patientId", e.target.value)}>
-                <option value="">Selecciona…</option>
-                {(patients || []).map((p) => <option key={p.id} value={p.id}>{p.fullName}</option>)}
-              </select>
-            </div>
-            <div className="form-group"><label>Médico</label>
-              <select value={form.doctorId || ""} onChange={(e) => f("doctorId", e.target.value)}>
-                <option value="">Selecciona…</option>
-                {(doctors || []).map((d) => <option key={d.id} value={d.id}>{d.fullName}</option>)}
-              </select>
-            </div>
-            <div className="form-group"><label>Consultorio</label>
-              <select value={form.officeId || ""} onChange={(e) => f("officeId", e.target.value)}>
-                <option value="">Selecciona…</option>
-                {(offices || []).map((o) => <option key={o.id} value={o.id}>{o.name} — {o.location}</option>)}
-              </select>
-            </div>
-            <div className="form-group"><label>Tipo de cita</label>
-              <select value={form.appointmentTypeId || ""} onChange={(e) => f("appointmentTypeId", e.target.value)}>
-                <option value="">Selecciona…</option>
-                {(apptypes || []).map((t) => <option key={t.id} value={t.id}>{t.name} ({t.durationMinutes} min)</option>)}
-              </select>
-            </div>
-            <div className="form-group"><label>Fecha</label><input type="date" value={form.date || ""} onChange={(e) => f("date", e.target.value)} /></div>
-            <div className="form-group"><label>Hora de inicio</label><input type="time" value={form.startsAt || ""} onChange={(e) => f("startsAt", e.target.value)} /></div>
-            <div className="form-group full"><label>Observaciones</label><textarea value={form.observations || ""} onChange={(e) => f("observations", e.target.value)} /></div>
+
+      {/* Modal cancelar */}
+      {cancelId && (
+        <Modal title="Cancelar cita" onClose={() => setCancelId(null)} onSave={handleCancel} saving={saving}>
+          <div className="form-grid cols-1">
+            <div className="form-group"><label>Motivo de cancelación</label><textarea value={cancelReason} onChange={(e) => setCancelReason(e.target.value)} placeholder="Describe el motivo…" /></div>
           </div>
+        </Modal>
+      )}
+
+      {/* Modal crear cita con pasos */}
+      {modal === "create" && (
+        <Modal title="Nueva cita" onClose={() => setModal(null)} onSave={step === 2 ? handleSave : null} saving={saving} size="modal-lg">
+          {/* Indicador de pasos */}
+          <div className="step-indicator">
+            <div className={`step ${step === 1 ? "active" : "done"}`}>
+              <div className="step-num">{step > 1 ? <Icon name="check" size={11} /> : "1"}</div>
+              <span>Datos básicos</span>
+            </div>
+            <div className="step-divider" />
+            <div className={`step ${step === 2 ? "active" : ""}`}>
+              <div className="step-num">2</div>
+              <span>Elegir horario</span>
+            </div>
+          </div>
+
+          {/* Paso 1: datos básicos */}
+          {step === 1 && (
+            <div>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>Paciente</label>
+                  <select value={form.patientId || ""} onChange={(e) => f("patientId", e.target.value)}>
+                    <option value="">Selecciona…</option>
+                    {(patients || []).map((p) => <option key={p.id} value={p.id}>{p.fullName}</option>)}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Médico</label>
+                  <select value={form.doctorId || ""} onChange={(e) => f("doctorId", e.target.value)}>
+                    <option value="">Selecciona…</option>
+                    {(doctors || []).map((d) => <option key={d.id} value={d.id}>{d.fullName}</option>)}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Consultorio</label>
+                  <select value={form.officeId || ""} onChange={(e) => f("officeId", e.target.value)}>
+                    <option value="">Selecciona…</option>
+                    {(offices || []).map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
+                  </select>
+                </div>
+
+                {/* 🌟 Campo clave inyectado: Tipo de Cita */}
+                <div className="form-group">
+                  <label>Tipo de Cita</label>
+                  <select value={form.appointmentTypeId || ""} onChange={(e) => f("appointmentTypeId", e.target.value)}>
+                    <option value="">Selecciona…</option>
+                    {(apptypes || []).map((t) => <option key={t.id} value={t.id}>{t.name} ({t.durationMinutes} min)</option>)}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Fecha</label>
+                  <input type="date" value={form.date || ""} onChange={(e) => f("date", e.target.value)} />
+                </div>
+              </div>
+
+              <div style={{ marginTop: 24, textAlign: "right" }}>
+                <button type="button" className="btn btn-primary" onClick={handleNextStep}>
+                  Siguiente <Icon name="chevron-right" size={12} />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Paso 2: elegir horario */}
+          {step === 2 && (
+            <div>
+              <div className="info-box" style={{ marginBottom: 16 }}>
+                <Icon name="clock" size={14} />
+                <span style={{ marginLeft: 8 }}>Mostrando horarios disponibles del médico seleccionado para el {form.date}</span>
+              </div>
+
+              {loadingSlots ? (
+                <div className="spinner" />
+              ) : !Array.isArray(slots) || slots.length === 0 ? (
+                <div className="empty-state"><p>Sin disponibilidad para esta fecha o criterios seleccionados</p></div>
+              ) : (
+                <div>
+                  <p style={{ fontSize: 13, color: "var(--text3)", marginBottom: 14 }}>
+                    {slots.length} horarios disponibles — haz clic para seleccionar
+                  </p>
+                  
+                  <div className="avail-grid">
+                    {slots.map((s, i) => {
+                      const hourStr = s.startsAt ?? s;
+                      const isSelected = selectedSlot?.startsAt === hourStr;
+                      return (
+                        <div 
+                          key={i} 
+                          className={`avail-slot ${isSelected ? "selected" : ""}`}
+                          onClick={() => setSelectedSlot(s)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <div className="avail-slot-time">{hourStr}</div>
+                          <div className="avail-slot-label">{s.endsAt ? `→ ${s.endsAt}` : "Disponible"}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Banner de confirmación visual del horario elegido */}
+              {selectedSlot && (
+                <div className="info-box alert-success" style={{ marginTop: 16, borderLeft: "4px solid var(--green)" }}>
+                  <Icon name="check" size={14} />
+                  <span style={{ marginLeft: 8 }}>
+                    Horario seleccionado: <b>{selectedSlot.startsAt} {selectedSlot.endsAt ? ` - ${selectedSlot.endsAt}` : ""}</b>
+                  </span>
+                </div>
+              )}
+
+              <div style={{ marginTop: 24, display: "flex", justifyContent: "space-between" }}>
+                <button type="button" className="btn btn-secondary" onClick={() => setStep(1)}>
+                  ← Volver
+                </button>
+              </div>
+            </div>
+          )}
         </Modal>
       )}
     </div>
@@ -482,37 +768,106 @@ function AppointmentsView({ toast }) {
 // ─── SPECIALTIES ──────────────────────────────────────────────────────────────
 function SpecialtiesView({ toast }) {
   const { data, loading, reload } = useData(() => api.get("/specialties"));
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(null); // null, "create", "edit"
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
-  const handleSave = async () => {
+  const handleOpenCreate = () => {
+    setForm({});
+    setModal("create");
+  };
+
+  const handleOpenEdit = (row) => {
+    setForm({ ...row }); // Carga los datos existentes de la especialidad
+    setModal("edit");
+  };
+
+const handleSave = async () => {
+    if (!form.name || !form.name.trim()) {
+      toast("El nombre es obligatorio", "error");
+      return;
+    }
+
     setSaving(true);
     try {
-      await api.post("/specialties", form);
-      toast("Especialidad creada", "success"); reload(); setModal(false);
-    } catch (e) { toast(e.message || "Error", "error"); }
-    finally { setSaving(false); }
+      if (modal === "create") {
+        await api.post("/specialties", form);
+        toast("Especialidad creada con éxito", "success");
+      } else if (modal === "edit") {
+        // 💡 Cambiado de api.put a api.patch
+        await api.patch(`/specialties/${form.id}`, form);
+        toast("Especialidad actualizada con éxito", "success");
+      }
+      reload(); 
+      setModal(null);
+    } catch (e) { 
+      toast(e.message || "Error al guardar", "error"); 
+    } finally { 
+      setSaving(false); 
+    }
   };
+
+const handleDelete = async (id) => {
+    if (!window.confirm("¿Estás seguro de que deseas eliminar esta especialidad?")) return;
+    
+    try {
+      // 💡 Ahora sí llamamos al DELETE nativo
+      await api.delete(`/specialties/${id}`);
+      toast("Especialidad eliminada correctamente", "success");
+      reload();
+    } catch (e) {
+      toast(e.message || "Error al eliminar la especialidad", "error");
+    }
+  };
+
+  const cols = [
+    { key: "name", label: "Nombre", bold: true },
+    { key: "description", label: "Descripción" },
+    {
+      key: "actions",
+      label: "Acciones",
+      render: (r) => (
+        <div className="actions-row">
+          <button className="btn btn-secondary btn-sm" onClick={() => handleOpenEdit(r)}>
+            <Icon name="edit" size={12} /> Editar
+          </button>
+          <button className="btn btn-danger btn-sm" onClick={() => handleDelete(r.id)}>
+            <Icon name="trash" size={12} /> Eliminar
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div>
       <div className="card">
         <div className="card-header">
           <span className="card-title">Especialidades</span>
-          <button className="btn btn-primary" onClick={() => { setForm({}); setModal(true); }}><Icon name="plus" size={14} /> Nueva especialidad</button>
+          <button className="btn btn-primary" onClick={handleOpenCreate}>
+            <Icon name="plus" size={14} /> Nueva especialidad
+          </button>
         </div>
-        <DataTable columns={[
-          { key: "name", label: "Nombre", bold: true },
-          { key: "description", label: "Descripción" },
-        ]} rows={data} loading={loading} />
+        <DataTable columns={cols} rows={data} loading={loading} />
       </div>
+
       {modal && (
-        <Modal title="Nueva especialidad" onClose={() => setModal(false)} onSave={handleSave} saving={saving}>
+        <Modal 
+          title={modal === "create" ? "Nueva especialidad" : "Editar especialidad"} 
+          onClose={() => setModal(null)} 
+          onSave={handleSave} 
+          saving={saving}
+        >
           <div className="form-grid cols-1">
-            <div className="form-group"><label>Nombre</label><input value={form.name || ""} onChange={(e) => f("name", e.target.value)} /></div>
-            <div className="form-group"><label>Descripción</label><textarea value={form.description || ""} onChange={(e) => f("description", e.target.value)} /></div>
+            <div className="form-group">
+              <label>Nombre</label>
+              <input value={form.name || ""} onChange={(e) => f("name", e.target.value)} placeholder="Ej: Pediatría" />
+            </div>
+            <div className="form-group">
+              <label>Descripción</label>
+              <textarea value={form.description || ""} onChange={(e) => f("description", e.target.value)} placeholder="Detalles de la especialidad..." />
+            </div>
           </div>
         </Modal>
       )}
@@ -527,22 +882,62 @@ function OfficesView({ toast }) {
   const [selected, setSelected] = useState(null);
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
+  const [togglingId, setTogglingId] = useState(null); // 🌟 Evita clics dobles al cambiar estado
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
     setSaving(true);
     try {
       if (modal === "create") await api.post("/offices", form);
-      else await api.put(`/offices/${selected.id}`, form);
+      else await api.patch(`/offices/${selected.id}`, form); // ✅ PATCH
       toast("Consultorio guardado", "success"); reload(); setModal(null);
     } catch (e) { toast(e.message || "Error", "error"); }
     finally { setSaving(false); }
   };
 
+  // 🌟 Función rápida para alternar el estado (Invertir Active/Inactive)
+  const handleToggleActive = async (r) => {
+    if (togglingId) return; // Si ya hay una petición en curso, bloquea el clic
+    setTogglingId(r.id);
+    
+    try {
+      // Mandamos solo el campo 'active' invertido al PATCH del backend
+      await api.patch(`/offices/${r.id}`, { 
+        name: r.name, 
+        location: r.location, 
+        active: !r.active 
+      });
+      toast(`Consultorio ${!r.active ? "activado" : "inactivado"}`, "success");
+      reload();
+    } catch (e) {
+      toast(e.message || "Error al cambiar el estado", "error");
+    } finally {
+      setTogglingId(null);
+    }
+  };
+
   const cols = [
     { key: "name", label: "Nombre", bold: true },
     { key: "location", label: "Ubicación" },
-    { key: "active", label: "Estado", render: (r) => <span className={`badge ${r.active ? "badge-green" : "badge-red"}`}>{r.active ? "Activo" : "Inactivo"}</span> },
+    { 
+      key: "active", 
+      label: "Estado", 
+      render: (r) => (
+        <button
+          className={`badge ${r.active ? "badge-green" : "badge-red"}`}
+          style={{ 
+            cursor: togglingId === r.id ? "not-allowed" : "pointer", 
+            border: "none",
+            opacity: togglingId === r.id ? 0.6 : 1
+          }}
+          disabled={togglingId === r.id}
+          onClick={() => handleToggleActive(r)}
+          title="Haz clic para cambiar el estado"
+        >
+          {r.active ? "Activo" : "Inactivo"}
+        </button>
+      ) 
+    },
     { key: "actions", label: "", render: (r) => (
       <button className="btn btn-ghost btn-sm" onClick={() => { setSelected(r); setForm({ name: r.name, location: r.location, active: r.active }); setModal("edit"); }}><Icon name="edit" size={13} /></button>
     )},
@@ -562,70 +957,143 @@ function OfficesView({ toast }) {
           <div className="form-grid">
             <div className="form-group"><label>Nombre</label><input value={form.name || ""} onChange={(e) => f("name", e.target.value)} /></div>
             <div className="form-group"><label>Ubicación</label><input value={form.location || ""} onChange={(e) => f("location", e.target.value)} /></div>
-            {modal === "edit" && (
-              <div className="form-group"><label>Activo</label>
-                <select value={form.active === true ? "true" : "false"} onChange={(e) => f("active", e.target.value === "true")}>
-                  <option value="true">Sí</option><option value="false">No</option>
-                </select>
-              </div>
-            )}
           </div>
         </Modal>
       )}
     </div>
   );
 }
-
 // ─── APPOINTMENT TYPES ────────────────────────────────────────────────────────
 function AppTypesView({ toast }) {
   const { data, loading, reload } = useData(() => api.get("/appointment-types"));
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(null); // null, "create", "edit"
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
+  const handleOpenCreate = () => {
+    setForm({});
+    setModal("create");
+  };
+
+  const handleOpenEdit = (row) => {
+    setForm({ ...row }); // Carga los datos existentes del tipo de cita
+    setModal("edit");
+  };
+
   const handleSave = async () => {
+    if (!form.name || !form.name.trim()) {
+      toast("El nombre es obligatorio", "error");
+      return;
+    }
+    if (!form.durationMinutes || form.durationMinutes <= 0) {
+      toast("La duración debe ser mayor a 0 minutos", "error");
+      return;
+    }
+
     setSaving(true);
     try {
-      await api.post("/appointment-types", form);
-      toast("Tipo de cita creado", "success"); reload(); setModal(false);
-    } catch (e) { toast(e.message || "Error", "error"); }
-    finally { setSaving(false); }
+      if (modal === "create") {
+        await api.post("/appointment-types", form);
+        toast("Tipo de cita creado con éxito", "success");
+      } else if (modal === "edit") {
+        // Enrutado directo al PATCH que configuramos en tu backend
+        await api.patch(`/appointment-types/${form.id}`, form);
+        toast("Tipo de cita actualizado con éxito", "success");
+      }
+      reload();
+      setModal(null);
+    } catch (e) {
+      toast(e.message || "Error al guardar", "error");
+    } finally {
+      setSaving(false);
+    }
   };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("¿Estás seguro de que deseas eliminar este tipo de cita?")) return;
+
+    try {
+      // Llamada directa al DELETE nativo que habilitamos en tu objeto api
+      await api.delete(`/appointment-types/${id}`);
+      toast("Tipo de cita eliminado correctamente", "success");
+      reload();
+    } catch (e) {
+      toast(e.message || "Error al eliminar el tipo de cita", "error");
+    }
+  };
+
+  const cols = [
+    { key: "name", label: "Nombre", bold: true },
+    { key: "durationMinutes", label: "Duración (min)" },
+    { key: "description", label: "Descripción" },
+    {
+      key: "actions",
+      label: "Acciones",
+      render: (r) => (
+        <div className="actions-row">
+          <button className="btn btn-secondary btn-sm" onClick={() => handleOpenEdit(r)}>
+            <Icon name="edit" size={12} /> Editar
+          </button>
+          <button className="btn btn-danger btn-sm" onClick={() => handleDelete(r.id)}>
+            <Icon name="trash" size={12} /> Eliminar
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div>
       <div className="card">
         <div className="card-header">
           <span className="card-title">Tipos de cita</span>
-          <button className="btn btn-primary" onClick={() => { setForm({}); setModal(true); }}><Icon name="plus" size={14} /> Nuevo tipo</button>
+          <button className="btn btn-primary" onClick={handleOpenCreate}>
+            <Icon name="plus" size={14} /> Nuevo tipo
+          </button>
         </div>
-        <DataTable columns={[
-          { key: "name", label: "Nombre", bold: true },
-          { key: "durationMinutes", label: "Duración (min)" },
-          { key: "description", label: "Descripción" },
-        ]} rows={data} loading={loading} />
+        <DataTable columns={cols} rows={data} loading={loading} />
       </div>
+
       {modal && (
-        <Modal title="Nuevo tipo de cita" onClose={() => setModal(false)} onSave={handleSave} saving={saving}>
+        <Modal
+          title={modal === "create" ? "Nuevo tipo de cita" : "Editar tipo de cita"}
+          onClose={() => setModal(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div className="form-grid">
-            <div className="form-group"><label>Nombre</label><input value={form.name || ""} onChange={(e) => f("name", e.target.value)} /></div>
-            <div className="form-group"><label>Duración (minutos)</label><input type="number" value={form.durationMinutes || ""} onChange={(e) => f("durationMinutes", parseInt(e.target.value))} /></div>
-            <div className="form-group full"><label>Descripción</label><textarea value={form.description || ""} onChange={(e) => f("description", e.target.value)} /></div>
+            <div className="form-group">
+              <label>Nombre</label>
+              <input value={form.name || ""} onChange={(e) => f("name", e.target.value)} placeholder="Ej: Consulta General" />
+            </div>
+            <div className="form-group">
+              <label>Duración (minutos)</label>
+              <input 
+                type="number" 
+                value={form.durationMinutes || ""} 
+                onChange={(e) => f("durationMinutes", parseInt(e.target.value) || "")} 
+                placeholder="Ej: 20"
+              />
+            </div>
+            <div className="form-group full">
+              <label>Descripción</label>
+              <textarea value={form.description || ""} onChange={(e) => f("description", e.target.value)} placeholder="Detalles sobre el tipo de consulta..." />
+            </div>
           </div>
         </Modal>
       )}
     </div>
   );
 }
-
 // ─── SCHEDULES ────────────────────────────────────────────────────────────────
 function SchedulesView({ toast }) {
   const { data: doctors } = useData(() => api.get("/doctors"));
   const [doctorId, setDoctorId] = useState("");
   const [schedules, setSchedules] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(null);
+  const [selected, setSelected] = useState(null);
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
@@ -640,21 +1108,40 @@ function SchedulesView({ toast }) {
 
   const handleSave = async () => {
     if (!doctorId) return toast("Selecciona un médico", "error");
+    if (!form.dayOfWeek || !form.startAt || !form.endAt) return toast("Completa todos los campos", "error");
     setSaving(true);
     try {
-      await api.post(`/doctors/${doctorId}/schedules`, { ...form, doctorId });
-      toast("Horario guardado", "success"); loadSchedules(doctorId); setModal(false);
-    } catch (e) { toast(e.message || "Error", "error"); }
+      if (modal === "edit") {
+        await api.patch(`/doctors/${doctorId}/schedules/${selected.id}`, form);
+        toast("Horario actualizado", "success");
+      } else {
+        await api.post(`/doctors/${doctorId}/schedules`, { ...form, doctorId });
+        toast("Horario guardado", "success");
+      }
+      loadSchedules(doctorId);
+      setModal(null);
+      setSelected(null);
+      setForm({});
+    } catch (e) { toast(e.message || "Error al guardar horario", "error"); }
     finally { setSaving(false); }
   };
 
-  const DAYS = ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"];
-  const DAY_ES = { MONDAY:"Lunes", TUESDAY:"Martes", WEDNESDAY:"Miércoles", THURSDAY:"Jueves", FRIDAY:"Viernes", SATURDAY:"Sábado", SUNDAY:"Domingo" };
+  const handleDelete = async (id) => {
+    if (!window.confirm("¿Eliminar este horario?")) return;
+    try {
+      await fetch(`${BASE_URL}/doctors/${doctorId}/schedules/${id}`, { method: "DELETE" });
+      toast("Horario eliminado", "success");
+      loadSchedules(doctorId);
+    } catch { toast("Error al eliminar", "error"); }
+  };
+
+  const selectedDoctor = (doctors || []).find((d) => d.id === doctorId);
 
   return (
     <div>
+      {/* Selector de médico */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><span className="card-title">Horarios por médico</span></div>
+        <div className="card-header"><span className="card-title">Gestión de Horarios</span></div>
         <div className="card-body">
           <div className="form-grid">
             <div className="form-group">
@@ -665,32 +1152,88 @@ function SchedulesView({ toast }) {
               </select>
             </div>
           </div>
+          {selectedDoctor && (
+            <div style={{ marginTop: 12, fontSize: 13, color: "var(--text2)" }}>
+              Médico seleccionado: <strong style={{ color: "var(--accent)" }}>{selectedDoctor.fullName}</strong>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Horarios del médico seleccionado */}
       {doctorId && (
         <div className="card">
           <div className="card-header">
-            <span className="card-title">Horarios</span>
-            <button className="btn btn-primary" onClick={() => { setForm({}); setModal(true); }}><Icon name="plus" size={14} /> Agregar horario</button>
+            <span className="card-title">Horarios registrados</span>
+            <button className="btn btn-primary" onClick={() => { setForm({}); setSelected(null); setModal("create"); }}>
+              <Icon name="plus" size={14} /> Agregar horario
+            </button>
           </div>
-          <DataTable loading={loading} rows={schedules} columns={[
-            { key: "dayOfWeek", label: "Día", bold: true, render: (r) => <span className="badge badge-blue">{DAY_ES[r.dayOfWeek] ?? r.dayOfWeek}</span> },
-            { key: "startsAt", label: "Hora inicio" },
-            { key: "endsAt", label: "Hora fin" },
-          ]} />
+          <div className="card-body">
+            {loading && <div className="spinner" />}
+            {!loading && schedules && schedules.length === 0 && (
+              <div className="empty-state">
+                <p>Este médico no tiene horarios registrados</p>
+                <button className="btn btn-primary" style={{ marginTop: 12 }} onClick={() => { setForm({}); setSelected(null); setModal("create"); }}>
+                  <Icon name="plus" size={14} /> Agregar primer horario
+                </button>
+              </div>
+            )}
+            {!loading && schedules && schedules.length > 0 && (
+              <div className="schedule-day-grid">
+                {schedules.map((s, i) => (
+                  <div className="schedule-day-card" key={i}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                      <div className="schedule-day-name">{DAY_ES[s.dayOfWeek] ?? s.dayOfWeek}</div>
+                      <div className="actions-row">
+                        <button className="btn-icon" title="Editar" onClick={() => {
+                          setSelected(s);
+                          setForm({ dayOfWeek: s.dayOfWeek, startAt: s.startsAt, endAt: s.endsAt });
+                          setModal("edit");
+                        }}>
+                          <Icon name="edit" size={14} />
+                        </button>
+                        <button className="btn-icon" title="Eliminar" style={{ color: "var(--danger)" }} onClick={() => handleDelete(s.id)}>
+                          <Icon name="cancel" size={14} />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="schedule-day-time">
+                      <Icon name="clock" size={13} />
+                      {s.startsAt} → {s.endsAt}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
+
+      {/* Modal agregar/editar horario */}
       {modal && (
-        <Modal title="Nuevo horario" onClose={() => setModal(false)} onSave={handleSave} saving={saving}>
+        <Modal
+          title={modal === "edit" ? "Editar horario" : "Agregar horario"}
+          onClose={() => { setModal(null); setSelected(null); setForm({}); }}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div className="form-grid">
-            <div className="form-group"><label>Día de la semana</label>
+            <div className="form-group full">
+              <label>Día de la semana</label>
               <select value={form.dayOfWeek || ""} onChange={(e) => f("dayOfWeek", e.target.value)}>
                 <option value="">Selecciona…</option>
                 {DAYS.map((d) => <option key={d} value={d}>{DAY_ES[d]}</option>)}
               </select>
             </div>
-            <div className="form-group"><label>Hora inicio</label><input type="time" value={form.startAt || ""} onChange={(e) => f("startAt", e.target.value)} /></div>
-            <div className="form-group"><label>Hora fin</label><input type="time" value={form.endAt || ""} onChange={(e) => f("endAt", e.target.value)} /></div>
+            <div className="form-group">
+              <label>Hora de inicio</label>
+              <input type="time" value={form.startAt || ""} onChange={(e) => f("startAt", e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label>Hora de fin</label>
+              <input type="time" value={form.endAt || ""} onChange={(e) => f("endAt", e.target.value)} />
+            </div>
           </div>
         </Modal>
       )}
@@ -701,17 +1244,34 @@ function SchedulesView({ toast }) {
 // ─── AVAILABILITY ─────────────────────────────────────────────────────────────
 function AvailabilityView() {
   const { data: doctors } = useData(() => api.get("/doctors"));
+  const { data: offices } = useData(() => api.get("/offices"));
+  // 1. Traemos los tipos de cita
+  const { data: apptypes } = useData(() => api.get("/appointment-types")); 
+
   const [doctorId, setDoctorId] = useState("");
+  const [officeId, setOfficeId] = useState("");
   const [fecha, setFecha] = useState(new Date().toISOString().split("T")[0]);
+  // 2. Nuevo estado para el tipo de cita
+  const [appointmentTypeId, setAppointmentTypeId] = useState(""); 
+  
   const [slots, setSlots] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const search = async () => {
     if (!doctorId) return;
     setLoading(true);
-    try { setSlots(await api.get(`/availability/doctors/${doctorId}?date=${fecha}`)); }
-    catch { setSlots([]); }
-    finally { setLoading(false); }
+    try {
+      // 3. Armamos la URL dinámica y limpia con URLSearchParams
+      const params = new URLSearchParams({ date: fecha });
+      if (officeId) params.append("officeId", officeId);
+      if (appointmentTypeId) params.append("appointmentTypeId", appointmentTypeId);
+
+      setSlots(await api.get(`/availability/doctors/${doctorId}?${params.toString()}`));
+    } catch { 
+      setSlots([]); 
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   return (
@@ -726,9 +1286,28 @@ function AvailabilityView() {
                 {(doctors || []).map((d) => <option key={d.id} value={d.id}>{d.fullName}</option>)}
               </select>
             </div>
-            <div className="form-group"><label>Fecha</label><input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} /></div>
+            <div className="form-group"><label>Consultorio (opcional)</label>
+              <select value={officeId} onChange={(e) => setOfficeId(e.target.value)}>
+                <option value="">Todos…</option>
+                {(offices || []).map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
+              </select>
+            </div>
+            <div className="form-group"><label>Fecha</label>
+              <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} />
+            </div>
+            {/* Nuevo Select para Tipo de Cita */}
+            <div className="form-group"><label>Tipo de Cita (opcional)</label>
+              <select value={appointmentTypeId} onChange={(e) => setAppointmentTypeId(e.target.value)}>
+                <option value="">Jornada completa…</option>
+                {(apptypes || []).map((t) => <option key={t.id} value={t.id}>{t.name} ({t.durationMinutes}m)</option>)}
+              </select>
+            </div>
           </div>
-          <div style={{ marginTop: 16 }}><button className="btn btn-primary" onClick={search}><Icon name="availability" size={14} /> Consultar</button></div>
+          <div style={{ marginTop: 16 }}>
+            <button className="btn btn-primary" onClick={search} disabled={!doctorId}>
+              <Icon name="search" size={14} /> Consultar
+            </button>
+          </div>
         </div>
       </div>
       {loading && <div className="spinner" />}
@@ -738,13 +1317,22 @@ function AvailabilityView() {
           <div className="card-body">
             {!Array.isArray(slots) || slots.length === 0
               ? <div className="empty-state"><p>Sin disponibilidad para esta fecha</p></div>
-              : <div className="avail-grid">
-                  {slots.map((s, i) => (
-                    <div className="avail-slot" key={i}>
-                      <div className="avail-slot-time">{s.startsAt ?? s}</div>
-                      <div className="avail-slot-label">{s.endsAt ? `→ ${s.endsAt}` : "Disponible"}</div>
+              : <div>
+                  {/* Banner amigable si el usuario olvidó seleccionar el tipo de cita */}
+                  {!appointmentTypeId && slots.length === 1 && (
+                    <div className="info-box">
+                      <Icon name="clock" size={18} />
+                      <span style={{ marginLeft: 8 }}>Estás viendo el rango global. Selecciona un <b>Tipo de Cita</b> y vuelve a consultar para segmentar los turnos.</span>
                     </div>
-                  ))}
+                  )}
+                  <div className="avail-grid">
+                    {slots.map((s, i) => (
+                      <div className="avail-slot" key={i}>
+                        <div className="avail-slot-time">{s.startsAt ?? s}</div>
+                        <div className="avail-slot-label">{s.endsAt ? `→ ${s.endsAt}` : "Disponible"}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
             }
           </div>
@@ -753,7 +1341,6 @@ function AvailabilityView() {
     </div>
   );
 }
-
 // ─── REPORTS ──────────────────────────────────────────────────────────────────
 function ReportsView() {
   const [activeTab, setActiveTab] = useState("occupancy");
@@ -771,34 +1358,19 @@ function ReportsView() {
       {activeTab === "occupancy" && (
         <div className="report-card">
           <div className="report-header"><Icon name="offices" size={16} /><span className="report-title">Ocupación por consultorio</span></div>
-          <div className="report-body">
-            <DataTable loading={l1} rows={Array.isArray(occupancy) ? occupancy : []} columns={[
-              { key: "name", label: "Consultorio", bold: true },
-              { key: "totalAppointments", label: "Total citas" },
-            ]} />
-          </div>
+          <div className="report-body"><DataTable loading={l1} rows={Array.isArray(occupancy) ? occupancy : []} columns={[{ key: "name", label: "Consultorio", bold: true }, { key: "totalAppointments", label: "Total citas" }]} /></div>
         </div>
       )}
       {activeTab === "productivity" && (
         <div className="report-card">
           <div className="report-header"><Icon name="doctors" size={16} /><span className="report-title">Productividad médicos</span></div>
-          <div className="report-body">
-            <DataTable loading={l2} rows={Array.isArray(productivity) ? productivity : []} columns={[
-              { key: "fullName", label: "Médico", bold: true },
-              { key: "completedAppointments", label: "Citas completadas", render: (r) => <span className="badge badge-green">{r.completedAppointments ?? 0}</span> },
-            ]} />
-          </div>
+          <div className="report-body"><DataTable loading={l2} rows={Array.isArray(productivity) ? productivity : []} columns={[{ key: "fullName", label: "Médico", bold: true }, { key: "completedAppointments", label: "Citas completadas", render: (r) => <span className="badge badge-green">{r.completedAppointments ?? 0}</span> }]} /></div>
         </div>
       )}
       {activeTab === "noshow" && (
         <div className="report-card">
           <div className="report-header"><Icon name="noshow" size={16} /><span className="report-title">Pacientes con mayor no-show</span></div>
-          <div className="report-body">
-            <DataTable loading={l3} rows={Array.isArray(noshow) ? noshow : []} columns={[
-              { key: "fullName", label: "Paciente", bold: true },
-              { key: "noShowCount", label: "No-shows", render: (r) => <span className="badge badge-red">{r.noShowCount ?? 0}</span> },
-            ]} />
-          </div>
+          <div className="report-body"><DataTable loading={l3} rows={Array.isArray(noshow) ? noshow : []} columns={[{ key: "fullName", label: "Paciente", bold: true }, { key: "noShowCount", label: "No-shows", render: (r) => <span className="badge badge-red">{r.noShowCount ?? 0}</span> }]} /></div>
         </div>
       )}
     </div>
@@ -813,16 +1385,22 @@ function DashboardView() {
   const { data: offices } = useData(() => api.get("/offices"));
 
   const confirmedCount = (appointments || []).filter((a) => a.status === "CONFIRMED").length;
-  const pendingCount = (appointments || []).filter((a) => a.status === "PENDING").length;
+  const scheduledCount = (appointments || []).filter((a) => a.status === "SCHEDULED").length;
 
   const stats = [
     { label: "Pacientes", value: (patients || []).length, sub: "registrados", icon: "patients", color: "rgba(79,142,247,0.15)", iconColor: "var(--accent)" },
     { label: "Médicos", value: (doctors || []).length, sub: "activos", icon: "doctors", color: "rgba(124,92,252,0.15)", iconColor: "var(--accent2)" },
-    { label: "Citas confirmadas", value: confirmedCount, sub: `${pendingCount} pendientes`, icon: "appointments", color: "rgba(0,212,170,0.12)", iconColor: "var(--success)" },
+    { label: "Citas confirmadas", value: confirmedCount, sub: `${scheduledCount} programadas`, icon: "appointments", color: "rgba(0,212,170,0.12)", iconColor: "var(--success)" },
     { label: "Consultorios", value: (offices || []).length, sub: "registrados", icon: "offices", color: "rgba(255,179,64,0.12)", iconColor: "var(--warn)" },
   ];
 
-  const statusMap = { CONFIRMED: ["Confirmada","badge-green"], PENDING: ["Pendiente","badge-warn"], CANCELLED: ["Cancelada","badge-red"], COMPLETED: ["Completada","badge-blue"], NO_SHOW: ["No asistió","badge-gray"] };
+  const statusMap = {
+    SCHEDULED: ["Programada","badge-blue"],
+    CONFIRMED: ["Confirmada","badge-green"],
+    CANCELLED: ["Cancelada","badge-red"],
+    COMPLETED: ["Completada","badge-gray"],
+    NO_SHOW: ["No asistió","badge-warn"],
+  };
 
   return (
     <div>
@@ -840,10 +1418,10 @@ function DashboardView() {
       </div>
       <div className="card">
         <div className="card-header"><span className="card-title">Últimas citas</span></div>
-        <DataTable rows={(appointments || []).slice(-6).reverse()} loading={false} columns={[
+        <DataTable rows={(appointments || []).slice(-8).reverse()} loading={false} columns={[
           { key: "patientId", label: "Paciente ID", bold: true },
           { key: "date", label: "Fecha" },
-          { key: "startAt", label: "Hora" },
+          { key: "startAt", label: "Hora", render: (r) => r.startAt ?? r.startsAt ?? "—" },
           { key: "status", label: "Estado", render: (r) => { const [l,c] = statusMap[r.status] ?? ["—","badge-gray"]; return <span className={`badge ${c}`}>{l}</span>; } },
         ]} emptyMsg="Sin citas aún" />
       </div>
