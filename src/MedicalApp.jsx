@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const BASE_URL = "http://localhost:8080/api";
@@ -65,6 +65,10 @@ const Icon = ({ name, size = 18 }) => {
     license:      (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><path d="M9 15l2 2 4-4"/></svg>),
     birth:        (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><path d="M12 7V3"/><path d="M9 3h6"/></svg>),
     monitor:      (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>),
+    trending:     (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/><polyline points="17,6 23,6 23,12"/></svg>),
+    activity:     (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>),
+    filter:       (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"/></svg>),
+    x:            (<svg width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>),
   };
   return icons[name] || null;
 };
@@ -443,10 +447,8 @@ const styles = `
   .td-primary { color: var(--ink); font-weight: 500; }
   .td-mono { font-family: 'SF Mono', 'Consolas', monospace; font-size: 12.5px; }
 
-  /* ── CLICKABLE ROWS — FIXED ── */
   tr.clickable-row { cursor: pointer; transition: background var(--transition); }
   tr.clickable-row:hover td { background: var(--teal-pale); }
-  /* FIX: ensure text inside hovered rows stays readable */
   tr.clickable-row:hover .cell-avatar-primary { color: var(--teal-deep); }
   tr.clickable-row:hover .cell-avatar-secondary { color: var(--ink-light); }
 
@@ -547,7 +549,6 @@ const styles = `
     from { opacity: 0; transform: translateX(30px); }
     to { opacity: 1; transform: none; }
   }
-
   .drawer-hero {
     padding: 26px 22px 22px;
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-med) 100%);
@@ -605,7 +606,6 @@ const styles = `
   .drawer-hero-badge.cancelled { background: rgba(185,28,28,0.3);   color: #FCA5A5; border: 1px solid rgba(185,28,28,0.5); }
   .drawer-hero-badge.completed { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.2); }
   .drawer-hero-badge.noshow    { background: rgba(146,96,10,0.28);  color: #FCD34D; border: 1px solid rgba(146,96,10,0.45); }
-
   .drawer-body { padding: 22px; flex: 1; }
 
   .detail-section { margin-bottom: 22px; }
@@ -616,7 +616,6 @@ const styles = `
     display: flex; align-items: center; gap: 8px;
   }
   .detail-section-title::after { content: ''; flex: 1; height: 1px; background: var(--stone); }
-
   .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
   .detail-grid.cols-1 { grid-template-columns: 1fr; }
   .detail-item {
@@ -835,7 +834,7 @@ const styles = `
 
   .divider { height: 1px; background: var(--stone); margin: 18px 0; }
 
-  /* ── AVATARS — FIXED ── */
+  /* ── AVATARS ── */
   .avatar {
     width: 32px; height: 32px; border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
@@ -846,7 +845,6 @@ const styles = `
   .avatar-blue  { background: var(--info-bg);   color: var(--info); }
   .avatar-green { background: var(--success-bg); color: var(--teal-deep); }
 
-  /* ── TABLE CELL WITH AVATAR — FIXED ── */
   .cell-with-avatar { display: flex; align-items: center; gap: 10px; }
   .cell-avatar-stack { display: flex; flex-direction: column; gap: 1px; line-height: 1; }
   .cell-avatar-primary  { font-size: 13.5px; font-weight: 500; color: var(--ink); }
@@ -871,6 +869,76 @@ const styles = `
   .section-divider-label { font-size: 10.5px; font-weight: 600; color: var(--ink-ghost); text-transform: uppercase; letter-spacing: 1.5px; white-space: nowrap; }
   .section-divider-line { flex: 1; height: 1px; background: var(--stone); }
 
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--stone);
+    background: var(--cream);
+  }
+  .filter-bar .form-group { margin: 0; }
+  .filter-search-wrap { position: relative; flex: 1; min-width: 220px; }
+  .filter-search-wrap input { padding-left: 36px; }
+  .filter-search-icon {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    color: var(--ink-whisper); pointer-events: none;
+    display: flex; align-items: center;
+  }
+  .filter-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--teal-pale); color: var(--teal-deep);
+    border: 1px solid var(--teal-soft);
+    border-radius: 20px; padding: 3px 10px 3px 10px;
+    font-size: 11px; font-weight: 600;
+  }
+  .filter-tag-close {
+    background: none; border: none; cursor: pointer;
+    color: var(--teal); padding: 0; display: flex;
+    align-items: center; opacity: 0.7;
+  }
+  .filter-tag-close:hover { opacity: 1; }
+  .filter-result-count {
+    font-size: 11px; color: var(--ink-ghost);
+    display: flex; align-items: center; gap: 5px;
+    white-space: nowrap; align-self: flex-end; padding-bottom: 2px;
+  }
+
+  /* ── CHARTS ── */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .chart-card {
+    background: var(--white);
+    border: 1px solid var(--stone);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .chart-title {
+    font-family: var(--font-head);
+    font-size: 13px; color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .chart-subtitle { font-size: 11px; color: var(--ink-ghost); margin-bottom: 18px; }
+  .chart-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+  .chart-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-light); }
+  .chart-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+  .bar-chart-wrap { display: flex; align-items: flex-end; gap: 6px; height: 140px; }
+  .bar-group { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+  .bar-val { font-size: 10px; font-weight: 600; color: var(--ink-light); }
+  .bar-inner { width: 100%; border-radius: 4px 4px 0 0; transition: all 0.4s ease; min-height: 4px; }
+  .bar-label { font-size: 10px; color: var(--ink-ghost); white-space: nowrap; }
+  .donut-wrap { display: flex; align-items: center; gap: 20px; }
+  .status-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .status-bar-label { font-size: 11px; color: var(--ink-light); width: 90px; flex-shrink: 0; }
+  .status-bar-track { flex: 1; height: 8px; background: var(--stone); border-radius: 4px; overflow: hidden; }
+  .status-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+  .status-bar-count { font-size: 11px; font-weight: 600; color: var(--ink); min-width: 24px; text-align: right; }
+
+  @media (max-width: 1100px) { .charts-grid { grid-template-columns: 1fr; } }
   @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 900px) {
     .main { margin-left: 0; }
@@ -882,6 +950,8 @@ const styles = `
     .stats-grid { grid-template-columns: 1fr 1fr; }
     .drawer { width: 100vw; }
     .detail-grid { grid-template-columns: 1fr; }
+    .filter-bar { flex-direction: column; }
+    .charts-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 580px) {
     .stats-grid { grid-template-columns: 1fr; }
@@ -893,6 +963,9 @@ const styles = `
 const DOC_TYPES = ["CC","TI","CE","PASAPORTE","NIT"];
 const DAYS = ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"];
 const DAY_ES = { MONDAY:"Lunes",TUESDAY:"Martes",WEDNESDAY:"Miércoles",THURSDAY:"Jueves",FRIDAY:"Viernes",SATURDAY:"Sábado",SUNDAY:"Domingo" };
+const DAY_SHORT = { MONDAY:"Lun",TUESDAY:"Mar",WEDNESDAY:"Mié",THURSDAY:"Jue",FRIDAY:"Vie",SATURDAY:"Sáb",SUNDAY:"Dom" };
+
+const norm = (s) => (s ?? "").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
 // ─── HOOKS ────────────────────────────────────────────────────────────────────
 function useData(fetchFn, deps = []) {
@@ -907,6 +980,37 @@ function useData(fetchFn, deps = []) {
   }, deps);
   useEffect(() => { load(); }, [load]);
   return { data, loading, error, reload: load };
+}
+
+// ─── FILTER BAR ───────────────────────────────────────────────────────────────
+function FilterBar({ search, onSearch, placeholder = "Buscar…", filters = [], total, filtered: filteredCount }) {
+  const hasFilters = search || filters.some(f => f.value && f.value !== "all");
+  return (
+    <div className="filter-bar">
+      <div className="filter-search-wrap">
+        <div className="filter-search-icon"><Icon name="search" size={15} /></div>
+        <input
+          value={search}
+          onChange={(e) => onSearch(e.target.value)}
+          placeholder={placeholder}
+        />
+      </div>
+      {filters.map((flt) => (
+        <div className="form-group" key={flt.key} style={{ minWidth: 160, gap: 5 }}>
+          <label>{flt.label}</label>
+          <select value={flt.value} onChange={(e) => flt.onChange(e.target.value)}>
+            {flt.options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+        </div>
+      ))}
+      {hasFilters && (
+        <div className="filter-result-count">
+          <Icon name="filter" size={11} />
+          {filteredCount} de {total}
+        </div>
+      )}
+    </div>
+  );
 }
 
 // ─── SHARED COMPONENTS ────────────────────────────────────────────────────────
@@ -957,10 +1061,7 @@ function DataTable({ columns, rows, loading, emptyMsg = "Sin registros", emptyIc
             <tr
               key={row.id ?? i}
               className={onRowClick ? "clickable-row" : ""}
-              onClick={onRowClick ? (e) => {
-                if (e.target.closest("button")) return;
-                onRowClick(row);
-              } : undefined}
+              onClick={onRowClick ? (e) => { if (e.target.closest("button")) return; onRowClick(row); } : undefined}
             >
               {columns.map((c) => (
                 <td key={c.key} className={c.primary ? "td-primary" : ""}>
@@ -985,7 +1086,6 @@ function Toast({ msg, type, onClose }) {
   );
 }
 
-// FIX: Unified Initials component — variant names now match CSS classes (teal/blue instead of wine/blue)
 function Initials({ name, variant = "teal", size = "sm" }) {
   const parts = (name || "?").trim().split(" ");
   const init = parts.length >= 2 ? parts[0][0] + parts[parts.length - 1][0] : parts[0]?.slice(0, 2) ?? "?";
@@ -995,7 +1095,6 @@ function Initials({ name, variant = "teal", size = "sm" }) {
   return <div className={`avatar avatar-${variant}`}>{init.toUpperCase()}</div>;
 }
 
-// ─── DETAIL ITEM ──────────────────────────────────────────────────────────────
 function DetailItem({ label, value, icon, mono, full, muted }) {
   return (
     <div className={`detail-item ${full ? "full" : ""}`}>
@@ -1005,6 +1104,157 @@ function DetailItem({ label, value, icon, mono, full, muted }) {
       </div>
       <div className={`detail-item-value ${mono ? "mono" : ""} ${muted && !value ? "muted" : ""}`}>
         {value || (muted ? "Sin información" : "—")}
+      </div>
+    </div>
+  );
+}
+
+// ─── CHARTS ───────────────────────────────────────────────────────────────────
+const STATUS_COLORS = {
+  SCHEDULED: "#1D5FA6",
+  CONFIRMED: "#0F766E",
+  COMPLETED: "#5A7080",
+  CANCELLED: "#B91C1C",
+  NO_SHOW:   "#92600A",
+};
+const STATUS_LABELS = {
+  SCHEDULED: "Programada",
+  CONFIRMED: "Confirmada",
+  COMPLETED: "Completada",
+  CANCELLED: "Cancelada",
+  NO_SHOW:   "No asistió",
+};
+
+function BarChart({ data, colorFn, labelKey, valueKey }) {
+  const max = Math.max(...data.map(d => d[valueKey] || 0), 1);
+  return (
+    <div className="bar-chart-wrap">
+      {data.map((d, i) => {
+        const val = d[valueKey] || 0;
+        const height = Math.max((val / max) * 120, val > 0 ? 6 : 0);
+        return (
+          <div className="bar-group" key={i}>
+            <div className="bar-val">{val > 0 ? val : ""}</div>
+            <div style={{ width: "100%", display: "flex", alignItems: "flex-end", flex: 1, justifyContent: "center" }}>
+              <div
+                className="bar-inner"
+                style={{ height, background: colorFn ? colorFn(d, i) : "var(--teal)", width: "100%", maxWidth: 40 }}
+                title={`${d[labelKey]}: ${val}`}
+              />
+            </div>
+            <div className="bar-label">{d[labelKey]}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function StatusDistChart({ appointments }) {
+  const counts = useMemo(() => {
+    const c = {};
+    (appointments || []).forEach(a => { c[a.status] = (c[a.status] || 0) + 1; });
+    return c;
+  }, [appointments]);
+  const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
+  const statuses = ["CONFIRMED","SCHEDULED","COMPLETED","CANCELLED","NO_SHOW"];
+  return (
+    <div>
+      {statuses.map(s => {
+        const count = counts[s] || 0;
+        const pct = Math.round((count / total) * 100);
+        return (
+          <div className="status-bar-row" key={s}>
+            <div className="status-bar-label">{STATUS_LABELS[s]}</div>
+            <div className="status-bar-track">
+              <div className="status-bar-fill" style={{ width: `${pct}%`, background: STATUS_COLORS[s] }} />
+            </div>
+            <div className="status-bar-count">{count}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function WeeklyChart({ appointments }) {
+  const data = useMemo(() => {
+    const counts = {};
+    DAYS.forEach(d => { counts[d] = 0; });
+    (appointments || []).forEach(a => {
+      if (!a.date) return;
+      const dow = new Date(a.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "long" }).toUpperCase();
+      if (counts[dow] !== undefined) counts[dow]++;
+    });
+    return DAYS.map(d => ({ day: DAY_SHORT[d], count: counts[d] }));
+  }, [appointments]);
+  const tealGrad = (_, i) => {
+    const opacity = 0.45 + (i / DAYS.length) * 0.55;
+    return `rgba(15,118,110,${opacity})`;
+  };
+  return <BarChart data={data} colorFn={tealGrad} labelKey="day" valueKey="count" />;
+}
+
+function DoctorProductivityChart({ appointments, doctors }) {
+  const data = useMemo(() => {
+    const counts = {};
+    (appointments || []).filter(a => a.status === "COMPLETED").forEach(a => {
+      counts[a.doctorId] = (counts[a.doctorId] || 0) + 1;
+    });
+    return (doctors || [])
+      .map(d => ({ name: d.fullName?.split(" ")[0] ?? "—", count: counts[d.id] || 0 }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 7);
+  }, [appointments, doctors]);
+  return <BarChart data={data} colorFn={(_, i) => i === 0 ? "var(--teal)" : `rgba(15,118,110,${0.35 + (1 - i / 7) * 0.45})`} labelKey="name" valueKey="count" />;
+}
+
+function DonutChart({ appointments }) {
+  const counts = useMemo(() => {
+    const c = {};
+    (appointments || []).forEach(a => { c[a.status] = (c[a.status] || 0) + 1; });
+    return c;
+  }, [appointments]);
+  const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
+  const statuses = Object.keys(STATUS_COLORS);
+  const R = 50, cx = 70, cy = 70, strokeW = 18;
+  const circumference = 2 * Math.PI * R;
+  let offset = 0;
+  const segments = statuses.map(s => {
+    const count = counts[s] || 0;
+    const pct = count / total;
+    const dash = pct * circumference;
+    const seg = { s, count, pct, dash, offset };
+    offset += dash;
+    return seg;
+  });
+  return (
+    <div className="donut-wrap" style={{ flexWrap: "wrap" }}>
+      <svg width={140} height={140} style={{ flexShrink: 0 }}>
+        {segments.map(({ s, dash, offset: off }) => (
+          <circle
+            key={s}
+            cx={cx} cy={cy} r={R}
+            fill="none"
+            stroke={STATUS_COLORS[s]}
+            strokeWidth={strokeW}
+            strokeDasharray={`${dash} ${circumference - dash}`}
+            strokeDashoffset={circumference / 4 - off}
+            style={{ transition: "stroke-dasharray 0.5s ease" }}
+          />
+        ))}
+        <text x={cx} y={cy - 6} textAnchor="middle" fontSize="20" fontFamily="var(--font-head)" fill="var(--ink)" fontWeight="400">{total}</text>
+        <text x={cx} y={cy + 12} textAnchor="middle" fontSize="9" fill="var(--ink-ghost)" fontFamily="var(--font-body)">total</text>
+      </svg>
+      <div className="chart-legend" style={{ flexDirection: "column", gap: 7 }}>
+        {segments.filter(s => s.count > 0).map(({ s, count, pct }) => (
+          <div className="chart-legend-item" key={s}>
+            <div className="chart-legend-dot" style={{ background: STATUS_COLORS[s] }} />
+            <span>{STATUS_LABELS[s]}</span>
+            <span style={{ marginLeft: "auto", fontWeight: 600, color: "var(--ink)", paddingLeft: 8 }}>{count}</span>
+            <span style={{ color: "var(--ink-whisper)", fontSize: 10, paddingLeft: 4 }}>{Math.round(pct * 100)}%</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -1131,7 +1381,7 @@ function AppointmentDrawer({ appointment, patients, doctors, offices, apptypes, 
   };
   const sc = statusConfig[appointment.status] ?? { label: appointment.status, cls: "scheduled" };
   return (
-    <div className="drawer-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="drawer-overlay" onClick={(e) => e.target === e.currentElement && onClose()}>
       <div className="drawer">
         <div className="drawer-hero">
           <button className="drawer-close" onClick={onClose}><Icon name="close" size={15} /></button>
@@ -1243,6 +1493,8 @@ function PatientsView({ toast }) {
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
   const [togglingId, setTogglingId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
@@ -1266,11 +1518,18 @@ function PatientsView({ toast }) {
     finally { setTogglingId(null); }
   };
 
+  const allData = Array.isArray(data) ? data : [];
+  const filtered = useMemo(() => allData.filter((r) => {
+    const q = norm(search);
+    const matchSearch = !q || norm(r.fullName).includes(q) || norm(r.email).includes(q) || norm(r.documentNumber).includes(q) || norm(r.phoneNumber).includes(q);
+    const matchStatus = statusFilter === "all" || (statusFilter === "active" ? r.active : !r.active);
+    return matchSearch && matchStatus;
+  }), [allData, search, statusFilter]);
+
   const cols = [
     { key: "fullName", label: "Paciente", primary: true, render: (r) => (
       <div className="cell-with-avatar">
         <Initials name={r.fullName} variant="teal" />
-        {/* FIX: use .cell-avatar-stack wrapper */}
         <div className="cell-avatar-stack">
           <div className="cell-avatar-primary">{r.fullName}</div>
           <div className="cell-avatar-secondary">{r.email}</div>
@@ -1287,9 +1546,7 @@ function PatientsView({ toast }) {
     { key: "active", label: "Estado", render: (r) => (
       <button className={`badge ${r.active ? "badge-green" : "badge-red"}`}
         style={{ cursor: togglingId === r.id ? "not-allowed" : "pointer", opacity: togglingId === r.id ? 0.6 : 1 }}
-        disabled={togglingId === r.id}
-        onClick={() => handleToggleActive(r)}
-        title="Clic para cambiar estado">
+        disabled={togglingId === r.id} onClick={() => handleToggleActive(r)} title="Clic para cambiar estado">
         {r.active ? "Activo" : "Inactivo"}
       </button>
     )},
@@ -1316,14 +1573,21 @@ function PatientsView({ toast }) {
         <div className="card-header">
           <div>
             <div className="card-title">Listado de pacientes</div>
-            <div className="card-subtitle">{Array.isArray(data) ? data.length : "—"} registros</div>
+            <div className="card-subtitle">{filtered.length} de {allData.length} registros</div>
           </div>
         </div>
-        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay pacientes registrados" emptyIcon="patients" onRowClick={(r) => setDrawerPatient(r)} />
+        <FilterBar
+          search={search} onSearch={setSearch}
+          placeholder="Nombre, correo, documento o teléfono…"
+          total={allData.length} filtered={filtered.length}
+          filters={[{
+            key: "status", label: "Estado", value: statusFilter, onChange: setStatusFilter,
+            options: [{ value: "all", label: "Todos los estados" }, { value: "active", label: "Activos" }, { value: "inactive", label: "Inactivos" }],
+          }]}
+        />
+        <DataTable columns={cols} rows={filtered} loading={loading} emptyMsg="No hay pacientes que coincidan" emptyIcon="patients" onRowClick={(r) => setDrawerPatient(r)} />
       </div>
-
       {drawerPatient && <PatientDrawer patient={drawerPatient} onClose={() => setDrawerPatient(null)} />}
-
       {(modal === "create" || modal === "edit") && (
         <Modal title={modal === "create" ? "Nuevo paciente" : "Editar paciente"} desc={modal === "create" ? "Complete los datos del nuevo paciente" : "Actualice la información"} icon="patients" onClose={() => setModal(null)} onSave={handleSave} saving={saving}>
           <div className="form-grid">
@@ -1356,6 +1620,9 @@ function DoctorsView({ toast }) {
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
   const [togglingId, setTogglingId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [specFilter, setSpecFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
@@ -1379,6 +1646,14 @@ function DoctorsView({ toast }) {
   };
 
   const getSpecName = (id) => (specs || []).find((s) => s.id === id)?.name ?? "—";
+  const allData = Array.isArray(data) ? data : [];
+  const filtered = useMemo(() => allData.filter((r) => {
+    const q = norm(search);
+    const matchSearch = !q || norm(r.fullName).includes(q) || norm(r.email).includes(q) || norm(r.documentNumber).includes(q) || norm(r.numberLicense ?? r.licenseNumber).includes(q);
+    const matchSpec = specFilter === "all" || r.specialtyId === specFilter;
+    const matchStatus = statusFilter === "all" || (statusFilter === "active" ? r.active : !r.active);
+    return matchSearch && matchSpec && matchStatus;
+  }), [allData, search, specFilter, statusFilter]);
 
   const cols = [
     { key: "fullName", label: "Médico", primary: true, render: (r) => (
@@ -1423,14 +1698,27 @@ function DoctorsView({ toast }) {
         <div className="card-header">
           <div>
             <div className="card-title">Listado de médicos</div>
-            <div className="card-subtitle">{Array.isArray(data) ? data.length : "—"} registros</div>
+            <div className="card-subtitle">{filtered.length} de {allData.length} registros</div>
           </div>
         </div>
-        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay médicos registrados" emptyIcon="doctors" onRowClick={(r) => setDrawerDoctor(r)} />
+        <FilterBar
+          search={search} onSearch={setSearch}
+          placeholder="Nombre, correo, documento o licencia…"
+          total={allData.length} filtered={filtered.length}
+          filters={[
+            {
+              key: "spec", label: "Especialidad", value: specFilter, onChange: setSpecFilter,
+              options: [{ value: "all", label: "Todas las especialidades" }, ...(specs || []).map(s => ({ value: s.id, label: s.name }))],
+            },
+            {
+              key: "status", label: "Estado", value: statusFilter, onChange: setStatusFilter,
+              options: [{ value: "all", label: "Todos los estados" }, { value: "active", label: "Activos" }, { value: "inactive", label: "Inactivos" }],
+            },
+          ]}
+        />
+        <DataTable columns={cols} rows={filtered} loading={loading} emptyMsg="No hay médicos que coincidan" emptyIcon="doctors" onRowClick={(r) => setDrawerDoctor(r)} />
       </div>
-
       {drawerDoctor && <DoctorDrawer doctor={drawerDoctor} specialties={specs} onClose={() => setDrawerDoctor(null)} />}
-
       {(modal === "create" || modal === "edit") && (
         <Modal title={modal === "create" ? "Nuevo médico" : "Editar médico"} desc="Información del profesional médico" icon="stethoscope" onClose={() => setModal(null)} onSave={handleSave} saving={saving}>
           <div className="form-grid">
@@ -1477,6 +1765,11 @@ function AppointmentsView({ toast }) {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [step, setStep] = useState(1);
   const [drawerAppt, setDrawerAppt] = useState(null);
+  // ── filtros ──
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState("");
+  const [doctorFilter, setDoctorFilter] = useState("all");
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
   const fetchSlots = async (doctorId, officeId, date, appointmentTypeId) => {
@@ -1523,6 +1816,18 @@ function AppointmentsView({ toast }) {
     NO_SHOW:   ["No asistió","badge-warn"],
   };
 
+  const allData = Array.isArray(data) ? data : [];
+  const filtered = useMemo(() => allData.filter((r) => {
+    const q = norm(search);
+    const patName = norm(getName(patients, r.patientId));
+    const docName = norm(getName(doctors, r.doctorId));
+    const matchSearch = !q || patName.includes(q) || docName.includes(q) || norm(r.date).includes(q);
+    const matchStatus = statusFilter === "all" || r.status === statusFilter;
+    const matchDate = !dateFilter || r.date === dateFilter;
+    const matchDoctor = doctorFilter === "all" || r.doctorId === doctorFilter;
+    return matchSearch && matchStatus && matchDate && matchDoctor;
+  }), [allData, search, statusFilter, dateFilter, doctorFilter, patients, doctors]);
+
   const cols = [
     { key: "patientId", label: "Paciente", primary: true, render: (r) => (
       <div className="cell-with-avatar">
@@ -1565,10 +1870,42 @@ function AppointmentsView({ toast }) {
         <div className="card-header">
           <div>
             <div className="card-title">Registro de citas</div>
-            <div className="card-subtitle">{Array.isArray(data) ? data.length : "—"} citas en total</div>
+            <div className="card-subtitle">{filtered.length} de {allData.length} citas</div>
           </div>
         </div>
-        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay citas registradas" emptyIcon="appointments" onRowClick={(r) => setDrawerAppt(r)} />
+        <FilterBar
+          search={search} onSearch={setSearch}
+          placeholder="Paciente, médico o fecha…"
+          total={allData.length} filtered={filtered.length}
+          filters={[
+            {
+              key: "status", label: "Estado", value: statusFilter, onChange: setStatusFilter,
+              options: [
+                { value: "all", label: "Todos los estados" },
+                { value: "SCHEDULED", label: "Programada" },
+                { value: "CONFIRMED", label: "Confirmada" },
+                { value: "COMPLETED", label: "Completada" },
+                { value: "CANCELLED", label: "Cancelada" },
+                { value: "NO_SHOW", label: "No asistió" },
+              ],
+            },
+            {
+              key: "doctor", label: "Médico", value: doctorFilter, onChange: setDoctorFilter,
+              options: [{ value: "all", label: "Todos los médicos" }, ...(doctors || []).map(d => ({ value: d.id, label: d.fullName }))],
+            },
+          ]}
+        >
+          <div className="form-group" style={{ minWidth: 160, gap: 5 }}>
+            <label>Fecha exacta</label>
+            <input type="date" value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} style={{ paddingLeft: 12 }} />
+          </div>
+          {dateFilter && (
+            <button className="btn btn-ghost btn-sm" style={{ alignSelf: "flex-end" }} onClick={() => setDateFilter("")}>
+              <Icon name="x" size={12} /> Limpiar fecha
+            </button>
+          )}
+        </FilterBar>
+        <DataTable columns={cols} rows={filtered} loading={loading} emptyMsg="No hay citas que coincidan" emptyIcon="appointments" onRowClick={(r) => setDrawerAppt(r)} />
       </div>
 
       {drawerAppt && <AppointmentDrawer appointment={drawerAppt} patients={patients} doctors={doctors} offices={offices} apptypes={apptypes} onClose={() => setDrawerAppt(null)} />}
@@ -1686,6 +2023,7 @@ function SpecialtiesView({ toast }) {
   const [modal, setModal] = useState(null);
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
+  const [search, setSearch] = useState("");
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
@@ -1704,6 +2042,12 @@ function SpecialtiesView({ toast }) {
     try { await api.delete(`/specialties/${id}`); toast("Especialidad eliminada", "success"); reload(); }
     catch (e) { toast(e.message || "Error al eliminar", "error"); }
   };
+
+  const allData = Array.isArray(data) ? data : [];
+  const filtered = useMemo(() => allData.filter(r => {
+    const q = norm(search);
+    return !q || norm(r.name).includes(q) || norm(r.description).includes(q);
+  }), [allData, search]);
 
   const cols = [
     { key: "name", label: "Especialidad", primary: true, render: (r) => (
@@ -1734,8 +2078,11 @@ function SpecialtiesView({ toast }) {
         <button className="btn btn-primary" onClick={() => { setForm({}); setModal("create"); }}><Icon name="plus" size={14} /> Nueva especialidad</button>
       </div>
       <div className="card">
-        <div className="card-header"><div className="card-title">Listado de especialidades</div></div>
-        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay especialidades registradas" emptyIcon="specialties" />
+        <div className="card-header">
+          <div className="card-title">Listado de especialidades</div>
+        </div>
+        <FilterBar search={search} onSearch={setSearch} placeholder="Buscar especialidad…" total={allData.length} filtered={filtered.length} filters={[]} />
+        <DataTable columns={cols} rows={filtered} loading={loading} emptyMsg="No hay especialidades que coincidan" emptyIcon="specialties" />
       </div>
       {modal && (
         <Modal title={modal === "create" ? "Nueva especialidad" : "Editar especialidad"} icon="specialties" onClose={() => setModal(null)} onSave={handleSave} saving={saving}>
@@ -1757,6 +2104,8 @@ function OfficesView({ toast }) {
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
   const [togglingId, setTogglingId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
@@ -1778,6 +2127,14 @@ function OfficesView({ toast }) {
     } catch (e) { toast(e.message || "Error", "error"); }
     finally { setTogglingId(null); }
   };
+
+  const allData = Array.isArray(data) ? data : [];
+  const filtered = useMemo(() => allData.filter(r => {
+    const q = norm(search);
+    const matchSearch = !q || norm(r.name).includes(q) || norm(r.location).includes(q);
+    const matchStatus = statusFilter === "all" || (statusFilter === "active" ? r.active : !r.active);
+    return matchSearch && matchStatus;
+  }), [allData, search, statusFilter]);
 
   const cols = [
     { key: "name", label: "Consultorio", primary: true, render: (r) => (
@@ -1815,7 +2172,16 @@ function OfficesView({ toast }) {
       </div>
       <div className="card">
         <div className="card-header"><div className="card-title">Listado de consultorios</div></div>
-        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay consultorios registrados" emptyIcon="offices" />
+        <FilterBar
+          search={search} onSearch={setSearch}
+          placeholder="Nombre o ubicación…"
+          total={allData.length} filtered={filtered.length}
+          filters={[{
+            key: "status", label: "Estado", value: statusFilter, onChange: setStatusFilter,
+            options: [{ value: "all", label: "Todos" }, { value: "active", label: "Activos" }, { value: "inactive", label: "Inactivos" }],
+          }]}
+        />
+        <DataTable columns={cols} rows={filtered} loading={loading} emptyMsg="No hay consultorios que coincidan" emptyIcon="offices" />
       </div>
       {(modal === "create" || modal === "edit") && (
         <Modal title={modal === "create" ? "Nuevo consultorio" : "Editar consultorio"} icon="offices" onClose={() => setModal(null)} onSave={handleSave} saving={saving}>
@@ -1835,6 +2201,7 @@ function AppTypesView({ toast }) {
   const [modal, setModal] = useState(null);
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
+  const [search, setSearch] = useState("");
   const f = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
   const handleSave = async () => {
@@ -1854,6 +2221,12 @@ function AppTypesView({ toast }) {
     try { await api.delete(`/appointment-types/${id}`); toast("Tipo de cita eliminado", "success"); reload(); }
     catch (e) { toast(e.message || "Error", "error"); }
   };
+
+  const allData = Array.isArray(data) ? data : [];
+  const filtered = useMemo(() => allData.filter(r => {
+    const q = norm(search);
+    return !q || norm(r.name).includes(q) || norm(r.description).includes(q);
+  }), [allData, search]);
 
   const cols = [
     { key: "name", label: "Tipo de cita", primary: true },
@@ -1883,7 +2256,8 @@ function AppTypesView({ toast }) {
       </div>
       <div className="card">
         <div className="card-header"><div className="card-title">Listado de tipos de cita</div></div>
-        <DataTable columns={cols} rows={data} loading={loading} emptyMsg="No hay tipos de cita registrados" emptyIcon="apptypes" />
+        <FilterBar search={search} onSearch={setSearch} placeholder="Nombre o descripción…" total={allData.length} filtered={filtered.length} filters={[]} />
+        <DataTable columns={cols} rows={filtered} loading={loading} emptyMsg="No hay tipos de cita que coincidan" emptyIcon="apptypes" />
       </div>
       {modal && (
         <Modal title={modal === "create" ? "Nuevo tipo de cita" : "Editar tipo de cita"} icon="apptypes" onClose={() => setModal(null)} onSave={handleSave} saving={saving}>
@@ -2184,15 +2558,18 @@ function DashboardView() {
   const { data: apptypes } = useData(() => api.get("/appointment-types"));
   const [drawerAppt, setDrawerAppt] = useState(null);
 
-  const confirmedCount = (appointments || []).filter((a) => a.status === "CONFIRMED").length;
-  const scheduledCount = (appointments || []).filter((a) => a.status === "SCHEDULED").length;
-  const completedCount = (appointments || []).filter((a) => a.status === "COMPLETED").length;
+  const appts = Array.isArray(appointments) ? appointments : [];
+  const confirmedCount = appts.filter((a) => a.status === "CONFIRMED").length;
+  const scheduledCount = appts.filter((a) => a.status === "SCHEDULED").length;
+  const completedCount = appts.filter((a) => a.status === "COMPLETED").length;
+  const noShowCount    = appts.filter((a) => a.status === "NO_SHOW").length;
+  const cancelCount    = appts.filter((a) => a.status === "CANCELLED").length;
 
   const stats = [
-    { label: "Pacientes registrados", value: (patients || []).length, delta: "en el sistema", icon: "patients", color: "teal" },
-    { label: "Médicos activos", value: (doctors || []).length, delta: "disponibles", icon: "stethoscope", color: "blue" },
-    { label: "Citas confirmadas", value: confirmedCount, delta: `${scheduledCount} pendientes de confirmar`, icon: "appointments", color: "green" },
-    { label: "Citas completadas", value: completedCount, delta: "consultas finalizadas", icon: "check", color: "amber" },
+    { label: "Pacientes registrados", value: (patients || []).length,        delta: `${(patients || []).filter(p => p.active).length} activos`,   icon: "patients",     color: "teal" },
+    { label: "Médicos activos",        value: (doctors || []).filter(d => d.active).length, delta: `de ${(doctors||[]).length} totales`,          icon: "stethoscope",  color: "blue" },
+    { label: "Citas confirmadas",      value: confirmedCount,                delta: `${scheduledCount} pendientes de confirmar`,                   icon: "appointments", color: "green" },
+    { label: "Citas completadas",      value: completedCount,                delta: `${noShowCount} no-shows · ${cancelCount} canceladas`,         icon: "check",        color: "amber" },
   ];
 
   const statusMap = {
@@ -2204,6 +2581,12 @@ function DashboardView() {
   };
 
   const getName = (list, id) => (list || []).find((x) => x.id === id)?.fullName ?? "—";
+
+  const recentAppts = [...appts].sort((a, b) => {
+    const da = new Date(a.date + "T" + (a.startAt ?? a.startsAt ?? "00:00"));
+    const db = new Date(b.date + "T" + (b.startAt ?? b.startsAt ?? "00:00"));
+    return db - da;
+  }).slice(0, 8);
 
   return (
     <div>
@@ -2219,6 +2602,7 @@ function DashboardView() {
         </div>
       </div>
 
+      {/* ── KPI STATS ── */}
       <div className="stats-grid">
         {stats.map((s) => (
           <div className={`stat-card ${s.color}`} key={s.label}>
@@ -2230,15 +2614,72 @@ function DashboardView() {
         ))}
       </div>
 
+      {/* ── CHARTS ROW ── */}
+      <div className="charts-grid">
+        {/* Citas por día de la semana */}
+        <div className="chart-card">
+          <div className="chart-title">Citas por día de la semana</div>
+          <div className="chart-subtitle">Distribución histórica de todas las citas</div>
+          <WeeklyChart appointments={appts} />
+          <div className="chart-legend">
+            <div className="chart-legend-item">
+              <div className="chart-legend-dot" style={{ background: "var(--teal)" }} />
+              Número de citas
+            </div>
+          </div>
+        </div>
+
+        {/* Distribución por estado */}
+        <div className="chart-card">
+          <div className="chart-title">Distribución por estado</div>
+          <div className="chart-subtitle">{appts.length} citas en total</div>
+          <DonutChart appointments={appts} />
+        </div>
+      </div>
+
+      {/* ── SEGUNDA FILA DE GRÁFICAS ── */}
+      <div className="charts-grid" style={{ marginBottom: 22 }}>
+        {/* Productividad por médico (completadas) */}
+        <div className="chart-card">
+          <div className="chart-title">Citas completadas por médico</div>
+          <div className="chart-subtitle">Top médicos según citas finalizadas</div>
+          <DoctorProductivityChart appointments={appts} doctors={doctors} />
+        </div>
+
+        {/* Distribución de estados (barras horizontales) */}
+        <div className="chart-card">
+          <div className="chart-title">Resumen de estados</div>
+          <div className="chart-subtitle">Cantidad de citas por estado</div>
+          <div style={{ marginTop: 8 }}>
+            <StatusDistChart appointments={appts} />
+          </div>
+          <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--stone)", display: "flex", gap: 16, flexWrap: "wrap" }}>
+            {[
+              { label: "Consultorios", value: (offices||[]).length, color: "var(--info)" },
+              { label: "Tipos de cita", value: (apptypes||[]).length, color: "#6B35A8" },
+              { label: "Especialidades", value: [...new Set((doctors||[]).map(d => d.specialtyId))].length, color: "var(--teal)" },
+            ].map(item => (
+              <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ width: 28, height: 28, borderRadius: 7, background: item.color + "18", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: item.color }}>{item.value}</span>
+                </div>
+                <span style={{ fontSize: 11, color: "var(--ink-light)" }}>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── TABLA RECIENTE ── */}
       <div className="card">
         <div className="card-header">
           <div>
-            <div className="card-title">Citas recientes</div>
+            <div className="card-title">Citas más recientes</div>
             <div className="card-subtitle">Últimas 8 citas · haz clic para ver detalles</div>
           </div>
         </div>
         <DataTable
-          rows={(appointments || []).slice(-8).reverse()}
+          rows={recentAppts}
           loading={false}
           onRowClick={(r) => setDrawerAppt(r)}
           columns={[
@@ -2318,7 +2759,6 @@ export default function MedicalApp() {
                 <Icon name="monitor" size={20} />
               </div>
               <div>
-                {/* PC HEALTH branding */}
                 <div className="logo-name">PC <span>Health</span></div>
                 <div className="logo-sub">Sistema clínico</div>
               </div>
